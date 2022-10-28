@@ -1,9 +1,15 @@
 {
   "name": "cards-against-humanity",
+  "description": "Cards against humanity game",
   "version": "0.0.0",
+  "author": "xanish",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "start:watch-sass": "node-sass --watch -o ./public/stylesheets ./sass",
+    "start:dev": "nodemon ./bin/www & npm run start:watch-sass",
+    "start:debug": "DEBUG=cah:* npm run start:dev",
+    "prettier": "npx prettier --write ."
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -11,6 +17,13 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
-    "pug": "^3.0.2"
+    "nanoid": "^4.0.0",
+    "node-sass": "^7.0.3",
+    "pug": "^3.0.2",
+    "socket.io": "^4.5.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13",
+    "prettier": "2.4.1"
   }
 }
