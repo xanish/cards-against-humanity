@@ -23,6 +23,51 @@ body {
   background-color: white;
 }
 
+.popup {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  z-index: 10;
+  width: 30vw;
+  padding: 1rem;
+  border: 2px solid black;
+  border-radius: 0.375rem;
+  background: white;
+  margin: 1rem 35vw;
+  justify-content: space-between;
+  align-items: center;
+
+  &-close {
+    cursor: pointer;
+  }
+
+  @keyframes pop-in {
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  @keyframes pop-out {
+    from {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    to {
+      transform: scale(0);
+      opacity: 0;
+    }
+  }
+
+  &-anim-in {
+    animation: pop-in 0.3s linear;
+  }
+
+  &-anim-out {
+    animation: pop-out 0.3s linear;
+  }
+}
+
 .home {
   height: inherit;
   display: flex;
