@@ -1,11 +1,16 @@
 const createError = require('http-errors');
 const express = require('express');
+const http = require('http');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+// import routes
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+
+// import socket bootstrapper
+const socket = require('./bootstrap/sockets.bootstrap');
 
 const app = express();
 
@@ -38,4 +43,10 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+// Create HTTP server.
+const server = http.createServer(app);
+
+// socket server setup
+socket.init(server);
+
+module.exports = { app, server };
