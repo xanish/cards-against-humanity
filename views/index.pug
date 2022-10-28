@@ -1,5 +1,28 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  #home.home
+    .home-item.bg-light
+      #player-info.hidden Hello, 
+        span#player-name
+      #player-form
+        input.input.light(
+          type="text"
+          name="username"
+          id="username"
+        )
+        button#set-username.btn.light Set Username
+
+    .home-item.bg-dark
+      #game-choice
+        button#create-new.btn.dark Create New Game
+        div OR
+        input.input.dark(
+          type="text"
+          name="lobby-code"
+          id="lobby-code"
+        )
+        button#join-existing.btn.dark Join Existing Game
+
+  script(type="text/javascript", src="/socket.io/socket.io.js")
+  script(type="module", src="/javascripts/index.js")
