@@ -4,4 +4,8 @@ export class State {
   setPlayer(player) {
     this.player = player;
   }
+
+  setGame(game) {
+    this.game = game;
+  }
 }
