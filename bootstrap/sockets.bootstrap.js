@@ -5,7 +5,11 @@ socket.init = function (server) {
 
   const io = new Server(server);
 
-  const onConnection = (socket) => {};
+  const registerLobbyHandlers = require('../sockets/lobby.socket');
+
+  const onConnection = (socket) => {
+    registerLobbyHandlers(io, socket);
+  };
 
   io.on('connection', onConnection);
 };
