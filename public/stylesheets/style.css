@@ -224,6 +224,9 @@ body {
   flex-grow: 1;
   flex-shrink: 1;
 }
+.game-board-playing-area > .table-top > .select-wrapper {
+  width: 100%;
+}
 .game-board-playing-area > .hand {
   min-height: 25rem;
 }
