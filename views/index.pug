@@ -49,6 +49,15 @@ block content
       
       #board.game-board-playing-area.bg-light
         .table-top
+          .select-wrapper
+            select.hidden#cards-being-played
+            #game-board-select-cards-being-played.game-board-select.hidden
+              .black-card-wrapper
+                .black-card
+                  #black-card-text.black-card-text
+                  #black-card-pick.black-card-pick
+                button#select-winner.btn.light.hidden Select Winner
+                button#play-cards.btn.light.hidden Play Cards
         
         #hand.hand
           .select-wrapper

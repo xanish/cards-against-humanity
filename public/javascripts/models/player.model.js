@@ -3,6 +3,7 @@ export class Player {
     this.id = `${username.replace(' ', '_')}_${new Date().getTime()}`;
     this.username = username;
     this.is_owner = false;
+    this.is_czar = false;
     this.turn = 0;
     this.cards = [];
   }
@@ -15,6 +16,12 @@ export class Player {
     this.cards = this.cards.concat(cards);
   }
 
+  removeFromHand(cards) {
+    for (let card of cards) {
+      this.cards = this.cards.filter((c) => c.id !== card.id);
+    }
+  }
+
   toJson() {
     return JSON.parse(JSON.stringify(this));
   }
@@ -24,6 +31,7 @@ export class Player {
 
     player.id = json.id;
     player.is_owner = json.is_owner;
+    player.is_czar = json.is_czar;
 
     return player;
   }
