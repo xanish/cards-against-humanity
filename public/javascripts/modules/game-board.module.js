@@ -134,7 +134,7 @@ export class GameBoard {
     // clear the cards on board
     this.select.replaceChildren();
     const cards = document.querySelectorAll('.game-board-select-item');
-    for (let card of card) {
+    for (let card of cards) {
       card.remove();
     }
     this.selected = [];
