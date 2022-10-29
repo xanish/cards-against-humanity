@@ -46,6 +46,13 @@ block content
         .game-board-controls
           button#start-game.btn.light.hidden Start Game
           button#leave-game.btn.light Leave Game
+      
+      #board.game-board-playing-area.bg-light
+        .table-top
+        
+        #hand.hand
+          .select-wrapper
+            select.hidden#cards-in-hand
 
   script(type="text/javascript", src="/socket.io/socket.io.js")
   script(type="module", src="/javascripts/index.js")

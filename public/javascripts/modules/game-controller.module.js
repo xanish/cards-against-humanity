@@ -1,3 +1,4 @@
+import { PlayerHand } from './player-hand.module.js';
 import { Card } from '../models/card.model.js';
 import { Utility } from './utility.module.js';
 
@@ -10,6 +11,7 @@ export class GameController {
   constructor(socket, state) {
     this.socket = socket;
     this.state = state;
+    this.playerHand = new PlayerHand('cards-in-hand');
 
     // btn event listeners
     this.initGameStartBtnListener();
@@ -47,10 +49,11 @@ export class GameController {
         (card) => new Card(card.id, card.text)
       );
 
-      // todo: create a component to show and allow card selection
-      console.log(this.state.player.hand);
+      this.playerHand.populate(this.state.player.hand);
 
       Utility.hide(this.elements.startGame);
+
+      this.socket.emit('game:round-start', this.state.game.code);
     });
   }
 }
