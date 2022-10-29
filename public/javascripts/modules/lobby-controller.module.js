@@ -8,6 +8,7 @@ export class LobbyController {
     lobbyCode: document.getElementById('lobby-code'),
     lobbyCodeLabel: document.getElementById('lobby-id'),
     lobbyPlayersList: document.getElementById('players-list'),
+    startGameBtn: document.getElementById('start-game'),
   };
 
   constructor(socket, state) {
@@ -35,6 +36,9 @@ export class LobbyController {
       this.state.player.is_owner = true;
 
       this.elements.lobbyCodeLabel.textContent = lobbyCode;
+
+      // show start btn for owner
+      Utility.show(this.elements.startGameBtn);
     });
   }
 

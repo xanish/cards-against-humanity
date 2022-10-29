@@ -192,3 +192,22 @@ body {
   align-items: center;
   margin: 0.5rem 1rem;
 }
+
+.game-board {
+  display: flex;
+  flex-direction: column;
+  width: calc(100vw - 16rem);
+}
+.game-board-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.5rem 1rem;
+}
+.game-board-header #round-number {
+  font-weight: bold;
+}
+.game-board-header button:last-child {
+  margin-left: 0.5rem;
+}

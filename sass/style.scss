@@ -213,3 +213,25 @@ body {
     }
   }
 }
+
+.game-board {
+  display: flex;
+  flex-direction: column;
+  width: calc(100vw - 16rem);
+
+  &-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5rem 1rem;
+
+    #round-number {
+      font-weight: bold;
+    }
+
+    button:last-child {
+      margin-left: 0.5rem;
+    }
+  }
+}

@@ -37,6 +37,15 @@ block content
       .players
         h5.players-title Players
         ul#players-list.players-body
+    
+    .game-board
+      .game-board-header
+        .game-board-info
+          h5#round-number
+
+        .game-board-controls
+          button#start-game.btn.light.hidden Start Game
+          button#leave-game.btn.light Leave Game
 
   script(type="text/javascript", src="/socket.io/socket.io.js")
   script(type="module", src="/javascripts/index.js")
