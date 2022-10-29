@@ -25,6 +25,18 @@ block content
           id="lobby-code"
         )
         button#join-existing.btn.dark Join Existing Game
+  
+  #lobby.hidden
+    .sidebar.bg-dark
+      
+      h5.sidebar-title Cards Against Humanity
+
+      h5.sidebar-subtitle Lobby Code: 
+        span#lobby-id
+      
+      .players
+        h5.players-title Players
+        ul#players-list.players-body
 
   script(type="text/javascript", src="/socket.io/socket.io.js")
   script(type="module", src="/javascripts/index.js")

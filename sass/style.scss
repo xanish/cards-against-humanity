@@ -171,3 +171,45 @@ body {
     }
   }
 }
+
+#lobby {
+  height: inherit;
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar {
+  width: 16rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.75rem;
+
+  &-title {
+    margin: 0.5rem 0 1rem 0;
+    font-size: 1.2rem;
+  }
+
+  .players {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1rem;
+
+    &-title {
+      margin: 0.5rem 0;
+    }
+
+    &-body {
+      width: 100%;
+      list-style-type: none;
+
+      &-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0.5rem 1rem;
+      }
+    }
+  }
+}

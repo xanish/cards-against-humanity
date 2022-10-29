@@ -155,3 +155,40 @@ body {
   background-color: black;
   border: 2px solid white;
 }
+
+#lobby {
+  height: inherit;
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar {
+  width: 16rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0.75rem;
+}
+.sidebar-title {
+  margin: 0.5rem 0 1rem 0;
+  font-size: 1.2rem;
+}
+.sidebar .players {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.sidebar .players-title {
+  margin: 0.5rem 0;
+}
+.sidebar .players-body {
+  width: 100%;
+  list-style-type: none;
+}
+.sidebar .players-body-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.5rem 1rem;
+}
