@@ -9,6 +9,10 @@ module.exports = (io, socket) => {
     game.czar_index = 0;
     game.current_round = 1;
     game.played_this_round = [];
+    game.score_board = {};
+    for (let player of players) {
+      game.score_board[player.id] = 0;
+    }
 
     // todo: add logic to select from all packs / allow user to select packs
     // todo: extract the card deck creation and shuffling logic to its own function
@@ -80,8 +84,26 @@ module.exports = (io, socket) => {
     }
   };
 
+  const selectWinner = (lobbyCode, winner) => {
+    const game = games[lobbyCode];
+
+    // increment score of winner
+    game.score_board[winner.id] += 1;
+
+    // inform about round winner and send updated score board
+    io.to(lobbyCode).emit('game:round-won-by', winner);
+    io.to(lobbyCode).emit('game:round-end', game.score_board);
+
+    // update game state to prepare for next round
+    game.czar_index = (game.czar_index + 1) % game.players.length;
+    game.current_round += 1;
+    game.played_this_round = [];
+    game.black_cards.pop();
+  };
+
   socket.on('game:start', startGame);
   socket.on('game:draw-cards', drawCards);
   socket.on('game:round-start', startRound);
   socket.on('game:play-cards', playCards);
+  socket.on('game:round-winner', selectWinner);
 };
