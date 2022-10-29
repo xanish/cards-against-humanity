@@ -38,6 +38,8 @@ export class GameController {
     this.initGameRoundStartEventListener();
     this.initGameCardsPlayedEventListener();
     this.initGameSelectWinnerEventListener();
+    this.initGameRoundWonByEventListener();
+    this.initGameRoundEndEventListener();
   }
 
   initGameStartBtnListener() {
@@ -59,7 +61,7 @@ export class GameController {
           play.toJson()
         );
         Utility.hide(this.elements.handWrapper);
-        document.getElementById('play-cards').disabled = true;
+        this.elements.playCards.disabled = true;
       } else {
         Utility.popMsg(
           `Choose ${this.state.game.black_card.pick} cards to play!`,
@@ -72,7 +74,6 @@ export class GameController {
   initGameSelectWinnerBtnListener() {
     this.elements.selectWinner.addEventListener('click', () => {
       const play = this.gameBoard.getSelectedCards();
-      console.log(play);
 
       if (play) {
         this.socket.emit(
@@ -82,13 +83,12 @@ export class GameController {
             (player) => player.id === play.played_by.id
           )
         );
-  
-        document.getElementById('select-winner').disabled = true;
+
+        this.elements.selectWinner.disabled = true;
       } else {
-        Utility.popMsg(
-          `Choose a winning card combination!`,
-          { auto_close: true }
-        );
+        Utility.popMsg(`Choose a winning card combination!`, {
+          auto_close: true,
+        });
       }
     });
   }
@@ -168,10 +168,51 @@ export class GameController {
   initGameSelectWinnerEventListener() {
     this.socket.on('game:select-winner', () => {
       if (this.state.player.is_czar) {
-        document.getElementById('select-winner').disabled = false;
+        this.elements.selectWinner.disabled = false;
       }
 
       this.gameBoard.populate(this.state.game.played_this_round);
+    });
+  }
+
+  initGameRoundWonByEventListener() {
+    this.socket.on('game:round-won-by', (winner) => {
+      this.gameBoard.highlightPlayBy(winner);
+      Utility.popMsg(`${winner.username} won the round!`, { auto_close: true });
+    });
+  }
+
+  initGameRoundEndEventListener() {
+    this.socket.on('game:round-end', (scoreBoard) => {
+      let scoreNode = null;
+
+      for (let playerId in scoreBoard) {
+        scoreNode = document.querySelector(
+          `span.player-score[data-player-id="${playerId}"]`
+        );
+        scoreNode.textContent = scoreBoard[playerId];
+      }
+
+      setTimeout(() => {
+        this.state.game.played_this_round = [];
+        this.playerHand.removeSelectedCards();
+        this.gameBoard.reset();
+        this.state.game.round += 1;
+
+        if (this.state.player.is_czar) {
+          this.socket.emit('game:round-start', this.state.game.code);
+        }
+
+        setTimeout(
+          () =>
+            this.socket.emit(
+              'game:draw-cards',
+              this.state.game.code,
+              this.maxCards - this.playerHand.getCountOfCards()
+            ),
+          this.state.player.turn * 500
+        );
+      }, 5000);
     });
   }
 }

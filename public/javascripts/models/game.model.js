@@ -6,6 +6,7 @@ export class Game {
     this.czar = null;
     this.black_card = null;
     this.round = 1;
+    this.score_board = {};
     this.played_this_round = [];
   }
 
