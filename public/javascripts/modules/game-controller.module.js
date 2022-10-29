@@ -49,28 +49,47 @@ export class GameController {
   initGamePlayCardsBtnListener() {
     this.elements.playCards.addEventListener('click', () => {
       const cardsPlayed = this.playerHand.getSelectedCards();
-      const play = new Play(cardsPlayed, this.state.player);
-      this.state.player.removeFromHand(cardsPlayed);
+      if (cardsPlayed.length === this.state.game.black_card.pick) {
+        const play = new Play(cardsPlayed, this.state.player);
+        this.state.player.removeFromHand(cardsPlayed);
 
-      this.socket.emit('game:play-cards', this.state.game.code, play.toJson());
-      Utility.hide(this.elements.handWrapper);
-      document.getElementById('play-cards').disabled = true;
+        this.socket.emit(
+          'game:play-cards',
+          this.state.game.code,
+          play.toJson()
+        );
+        Utility.hide(this.elements.handWrapper);
+        document.getElementById('play-cards').disabled = true;
+      } else {
+        Utility.popMsg(
+          `Choose ${this.state.game.black_card.pick} cards to play!`,
+          { auto_close: true }
+        );
+      }
     });
   }
 
   initGameSelectWinnerBtnListener() {
     this.elements.selectWinner.addEventListener('click', () => {
       const play = this.gameBoard.getSelectedCards();
+      console.log(play);
 
-      this.socket.emit(
-        'game:round-winner',
-        this.state.game.code,
-        this.state.game.players.find(
-          (player) => player.id === play.played_by.id
-        )
-      );
-
-      document.getElementById('select-winner').disabled = true;
+      if (play) {
+        this.socket.emit(
+          'game:round-winner',
+          this.state.game.code,
+          this.state.game.players.find(
+            (player) => player.id === play.played_by.id
+          )
+        );
+  
+        document.getElementById('select-winner').disabled = true;
+      } else {
+        Utility.popMsg(
+          `Choose a winning card combination!`,
+          { auto_close: true }
+        );
+      }
     });
   }
 
