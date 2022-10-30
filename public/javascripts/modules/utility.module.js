@@ -48,7 +48,7 @@ export class Utility {
     });
 
     const wrapper = document.getElementById('popup-wrapper');
-    wrapper.appendChild(popup);
+    wrapper.prepend(popup);
 
     if (config) {
       if (config.auto_close === true) {

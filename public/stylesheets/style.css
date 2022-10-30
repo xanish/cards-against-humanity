@@ -23,17 +23,21 @@ body {
   background-color: white;
 }
 
+#popup-wrapper {
+  position: fixed;
+  z-index: 1;
+}
+
 .popup {
   display: flex;
   flex-direction: row;
-  position: fixed;
   z-index: 10;
   width: 30vw;
   padding: 1rem;
   border: 2px solid black;
   border-radius: 0.375rem;
   background: white;
-  margin: 1rem 35vw;
+  margin: 0.5rem 35vw;
   justify-content: space-between;
   align-items: center;
 }
