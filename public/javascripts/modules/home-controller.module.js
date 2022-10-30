@@ -32,11 +32,18 @@ export class HomeController {
   initSetUsernameBtnListener() {
     this.elements.setUser.addEventListener('click', () => {
       const username = this.elements.userName.value;
-      this.state.setPlayer(new Player(username));
 
-      Utility.hide(this.elements.playerForm);
-      this.elements.playerName.textContent = username;
-      Utility.show(this.elements.playerInfo);
+      if (username) {
+        this.state.setPlayer(new Player(username));
+
+        Utility.hide(this.elements.playerForm);
+        this.elements.playerName.textContent = username;
+        Utility.show(this.elements.playerInfo);
+      } else {
+        Utility.popMsg(`Please set a username before proceeding`, {
+          auto_close: true,
+        });
+      }
     });
   }
 
@@ -65,13 +72,13 @@ export class HomeController {
   initGameNotFoundEventListener() {
     this.socket.on('lobby:not-found', () => {
       Utility.show(this.elements.homeTab);
-      Utility.popMsg(`Game does not exist or has ended.`, { auto_close: true });
+      Utility.popMsg(`Game does not exist or has ended`, { auto_close: true });
     });
   }
 
   isPlayerValid() {
     if (this.state.player == null) {
-      Utility.popMsg(`Please set a username before proceeding.`, {
+      Utility.popMsg(`Please set a username before proceeding`, {
         auto_close: true,
       });
       return false;
