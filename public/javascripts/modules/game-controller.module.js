@@ -9,6 +9,7 @@ export class GameController {
   elements = {
     // btns
     startGame: document.getElementById('start-game'),
+    leaveGame: document.getElementById('leave-game'),
     playCards: document.getElementById('play-cards'),
     selectWinner: document.getElementById('select-winner'),
 
@@ -29,6 +30,7 @@ export class GameController {
 
     // btn event listeners
     this.initGameStartBtnListener();
+    this.initGameLeaveBtnListener();
     this.initGamePlayCardsBtnListener();
     this.initGameSelectWinnerBtnListener();
 
@@ -40,11 +42,20 @@ export class GameController {
     this.initGameSelectWinnerEventListener();
     this.initGameRoundWonByEventListener();
     this.initGameRoundEndEventListener();
+    this.initGamePlayerLeftEventListener();
+    this.initGamePlayerPromotedEventListener();
   }
 
   initGameStartBtnListener() {
     this.elements.startGame.addEventListener('click', () => {
       this.socket.emit('game:start', this.state.game.code);
+    });
+  }
+
+  initGameLeaveBtnListener() {
+    this.elements.leaveGame.addEventListener('click', () => {
+      this.socket.disconnect();
+      window.location = '/';
     });
   }
 
@@ -64,7 +75,7 @@ export class GameController {
         this.elements.playCards.disabled = true;
       } else {
         Utility.popMsg(
-          `Choose ${this.state.game.black_card.pick} cards to play!`,
+          `Choose ${this.state.game.black_card.pick} cards to play`,
           { auto_close: true }
         );
       }
@@ -86,7 +97,7 @@ export class GameController {
 
         this.elements.selectWinner.disabled = true;
       } else {
-        Utility.popMsg(`Choose a winning card combination!`, {
+        Utility.popMsg(`Choose a winning card combination`, {
           auto_close: true,
         });
       }
@@ -177,8 +188,14 @@ export class GameController {
 
   initGameRoundWonByEventListener() {
     this.socket.on('game:round-won-by', (winner) => {
-      this.gameBoard.highlightPlayBy(winner);
-      Utility.popMsg(`${winner.username} won the round!`, { auto_close: true });
+      if (winner == null) {
+        Utility.popMsg('No winner declared this round', { auto_close: true });
+      } else {
+        this.gameBoard.highlightPlayBy(winner);
+        Utility.popMsg(`${winner.username} won the round!`, {
+          auto_close: true,
+        });
+      }
     });
   }
 
@@ -213,6 +230,30 @@ export class GameController {
           this.state.player.turn * 500
         );
       }, 5000);
+    });
+  }
+
+  initGamePlayerLeftEventListener() {
+    this.socket.on('game:player-left', (player) => {
+      Utility.popMsg(`${player.username} has left the game`, {
+        auto_close: true,
+      });
+      document
+        .querySelector(`.players-body-item[data-player-id="${player.id}"]`)
+        .remove();
+    });
+  }
+
+  initGamePlayerPromotedEventListener() {
+    this.socket.on('game:promoted-to-owner', (player) => {
+      Utility.popMsg(`${player.username} is now the lobby owner`, {
+        auto_close: true,
+      });
+      this.state.game.owner = player;
+      this.state.player.is_owner = this.state.player.id === player.id;
+      if (this.state.player.turn === -1 && this.state.player.is_owner) {
+        Utility.show(this.elements.startGame);
+      }
     });
   }
 }

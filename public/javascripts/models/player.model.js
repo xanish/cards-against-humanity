@@ -4,7 +4,7 @@ export class Player {
     this.username = username;
     this.is_owner = false;
     this.is_czar = false;
-    this.turn = 0;
+    this.turn = -1;
     this.cards = [];
   }
 

@@ -6,6 +6,7 @@ module.exports = (io, socket) => {
     // generate lobby id
     const lobbyCode = nanoid.nanoid(6);
     player.socket_id = socket.id;
+    player.is_owner = true;
 
     // create game
     games[lobbyCode] = {
@@ -24,6 +25,7 @@ module.exports = (io, socket) => {
     if (games[lobbyCode]) {
       // game exists
       player.socket_id = socket.id;
+      player.is_owner = false;
       games[lobbyCode].players.push(player);
 
       // join the lobby

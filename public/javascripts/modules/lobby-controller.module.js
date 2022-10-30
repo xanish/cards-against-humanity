@@ -84,6 +84,7 @@ export class LobbyController {
 
     li.appendChild(name);
     li.appendChild(score);
+    li.dataset.playerId = player.id;
     li.classList.add('players-body-item');
 
     return li;

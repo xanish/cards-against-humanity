@@ -101,9 +101,63 @@ module.exports = (io, socket) => {
     game.black_cards.pop();
   };
 
+  const playerLeft = (reason) => {
+    for (const lobbyCode of socket.rooms) {
+      if (lobbyCode !== socket.id) {
+        const game = games[lobbyCode];
+        // find the player who left
+        const player = game.players.find((p) => p.socket_id === socket.id);
+        game.players = game.players.filter((p) => p.socket_id !== socket.id);
+
+        // if no players are present just delete the game
+        if (game.players.length > 0) {
+          // inform others that a player has left
+          io.to(lobbyCode).emit('game:player-left', player);
+
+          // if the owner left then make a new owner and inform lobby
+          if (player.is_owner) {
+            game.players[0].is_owner = true;
+            io.to(lobbyCode).emit('game:promoted-to-owner', game.players[0]);
+          }
+
+          // if score_board was initialised we have probably started the game
+          if (game.score_board && game.score_board[player.id] >= 0) {
+            // delete any score reference of the player who left
+            delete game.score_board[player.id];
+
+            // if the czar left then just end the round declaring it as ended
+            if (player.is_czar) {
+              io.to(lobbyCode).emit('game:round-won-by');
+              io.to(lobbyCode).emit('game:round-end', game.score_board);
+
+              // update game state to prepare for next round
+              // note we dont need to update the czar index if the czar left
+              // because the index automatically goes to the next player in line
+              game.current_round += 1;
+              game.played_this_round = [];
+              game.black_cards.pop();
+            } else {
+              // if a non czar player left then check if everyone has played
+              // if yes then ask czar to select winner?
+              // not sure what happens if this triggers along with same
+              // condition in game:play-cards event
+              // (maybe handle on client for duplicate events)
+              if (game.played_this_round.length === game.players.length - 1) {
+                io.to(lobbyCode).emit('game:select-winner');
+              }
+            }
+          }
+        } else {
+          delete games[lobbyCode];
+        }
+      }
+    }
+  };
+
   socket.on('game:start', startGame);
   socket.on('game:draw-cards', drawCards);
   socket.on('game:round-start', startRound);
   socket.on('game:play-cards', playCards);
   socket.on('game:round-winner', selectWinner);
+  socket.on('disconnecting', playerLeft);
 };
