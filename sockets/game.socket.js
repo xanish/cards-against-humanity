@@ -59,6 +59,7 @@ module.exports = (io, socket) => {
       p.is_czar = false;
       return p;
     });
+    game.inactive_players = [];
     game.players[game.czar_index].is_czar = true;
 
     io.to(socket.id).emit(
@@ -84,6 +85,19 @@ module.exports = (io, socket) => {
     }
   };
 
+  const playerSkippedRound = (lobbyCode, player) => {
+    const game = games[lobbyCode];
+
+    game.inactive_players.push(player);
+
+    const overallPlayedCount =
+      game.played_this_round.length + game.inactive_players.length;
+    // if all players have played then ask czar to select winner
+    if (overallPlayedCount === game.players.length - 1) {
+      io.to(lobbyCode).emit('game:select-winner');
+    }
+  };
+
   const selectWinner = (lobbyCode, winner) => {
     const game = games[lobbyCode];
 
@@ -95,10 +109,17 @@ module.exports = (io, socket) => {
     io.to(lobbyCode).emit('game:round-end', game.score_board);
 
     // update game state to prepare for next round
-    game.czar_index = (game.czar_index + 1) % game.players.length;
-    game.current_round += 1;
-    game.played_this_round = [];
-    game.black_cards.pop();
+    updateStateToNextRound(lobbyCode);
+  };
+
+  const czarSkippedRound = (lobbyCode) => {
+    const game = games[lobbyCode];
+
+    io.to(lobbyCode).emit('game:round-won-by');
+    io.to(lobbyCode).emit('game:round-end', game.score_board);
+
+    // update game state to prepare for next round
+    updateStateToNextRound(lobbyCode);
   };
 
   const playerLeft = (reason) => {
@@ -133,9 +154,7 @@ module.exports = (io, socket) => {
               // update game state to prepare for next round
               // note we dont need to update the czar index if the czar left
               // because the index automatically goes to the next player in line
-              game.current_round += 1;
-              game.played_this_round = [];
-              game.black_cards.pop();
+              updateStateToNextRound(lobbyCode, true);
             } else {
               // if a non czar player left then check if everyone has played
               // if yes then ask czar to select winner?
@@ -154,10 +173,24 @@ module.exports = (io, socket) => {
     }
   };
 
+  const updateStateToNextRound = (lobbyCode, skipCzarUpdate = false) => {
+    const game = games[lobbyCode];
+
+    if (skipCzarUpdate === false) {
+      game.czar_index = (game.czar_index + 1) % game.players.length;
+    }
+    game.current_round += 1;
+    game.played_this_round = [];
+    game.inactive_players = [];
+    game.black_cards.pop();
+  };
+
   socket.on('game:start', startGame);
   socket.on('game:draw-cards', drawCards);
   socket.on('game:round-start', startRound);
   socket.on('game:play-cards', playCards);
+  socket.on('game:player-skipped', playerSkippedRound);
   socket.on('game:round-winner', selectWinner);
+  socket.on('game:czar-skipped', czarSkippedRound);
   socket.on('disconnecting', playerLeft);
 };

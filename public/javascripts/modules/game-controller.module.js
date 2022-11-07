@@ -21,6 +21,8 @@ export class GameController {
     ),
   };
   maxCards = 10;
+  czarIdleTimeout = null;
+  playerIdleTimeout = null;
 
   constructor(socket, state) {
     this.socket = socket;
@@ -61,6 +63,8 @@ export class GameController {
 
   initGamePlayCardsBtnListener() {
     this.elements.playCards.addEventListener('click', () => {
+      // clear idle timeout if action made by player
+      clearTimeout(this.playerIdleTimeout);
       const cardsPlayed = this.playerHand.getSelectedCards();
       if (cardsPlayed.length === this.state.game.black_card.pick) {
         const play = new Play(cardsPlayed, this.state.player);
@@ -84,6 +88,8 @@ export class GameController {
 
   initGameSelectWinnerBtnListener() {
     this.elements.selectWinner.addEventListener('click', () => {
+      // clear idle timeout if action made by czar
+      clearTimeout(this.czarIdleTimeout);
       const play = this.gameBoard.getSelectedCards();
 
       if (play) {
@@ -160,6 +166,17 @@ export class GameController {
         Utility.show(this.elements.playCards);
         Utility.show(this.elements.handWrapper);
         Utility.hide(this.elements.selectWinner);
+
+        // keep an action timeout for player to make sure any
+        // idle player does not keep others waiting
+        this.playerIdleTimeout = setTimeout(() => {
+          this.elements.playCards.disabled = true;
+          this.socket.emit(
+            'game:player-skipped',
+            this.state.game.code,
+            this.state.player
+          );
+        }, this.state.game.idle_timeout);
       }
     });
   }
@@ -183,6 +200,15 @@ export class GameController {
       }
 
       this.gameBoard.populate(this.state.game.played_this_round);
+
+      // keep an action timeout for czar to end the round as draw if
+      // czar is inactive
+      if (this.state.player.is_czar) {
+        this.czarIdleTimeout = setTimeout(() => {
+          this.elements.selectWinner.disabled = true;
+          this.socket.emit('game:czar-skipped', this.state.game.code);
+        }, this.state.game.idle_timeout);
+      }
     });
   }
 
