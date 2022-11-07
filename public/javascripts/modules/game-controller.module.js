@@ -37,6 +37,7 @@ export class GameController {
     this.initGameSelectWinnerBtnListener();
 
     // socket event listeners
+    this.initGameErrorEventListener();
     this.initGameStartedEventListener();
     this.initGameDrawCardsEventListener();
     this.initGameRoundStartEventListener();
@@ -107,6 +108,12 @@ export class GameController {
           auto_close: true,
         });
       }
+    });
+  }
+
+  initGameErrorEventListener() {
+    this.socket.on('game:error', (msg) => {
+      Utility.popMsg(msg, { auto_close: true });
     });
   }
 

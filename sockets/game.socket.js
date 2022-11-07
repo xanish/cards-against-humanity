@@ -6,6 +6,14 @@ module.exports = (io, socket) => {
     const game = games[lobbyCode];
     const players = game.players;
 
+    if (players.length < 3) {
+      io.to(lobbyCode).emit(
+        'game:error',
+        'Cannot start game with less than 3 players'
+      );
+      return;
+    }
+
     game.czar_index = 0;
     game.current_round = 1;
     game.played_this_round = [];
