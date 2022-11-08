@@ -65,7 +65,7 @@ export class GameController {
   initGamePlayCardsBtnListener() {
     this.elements.playCards.addEventListener('click', () => {
       // clear idle timeout if action made by player
-      clearTimeout(this.playerIdleTimeout);
+      this.playerIdleTimeout.reset();
       const cardsPlayed = this.playerHand.getSelectedCards();
       if (cardsPlayed.length === this.state.game.black_card.pick) {
         const play = new Play(cardsPlayed, this.state.player);
@@ -90,7 +90,7 @@ export class GameController {
   initGameSelectWinnerBtnListener() {
     this.elements.selectWinner.addEventListener('click', () => {
       // clear idle timeout if action made by czar
-      clearTimeout(this.czarIdleTimeout);
+      this.czarIdleTimeout.reset();
       const play = this.gameBoard.getSelectedCards();
 
       if (play) {
@@ -149,6 +149,7 @@ export class GameController {
 
   initGameRoundStartEventListener() {
     this.socket.on('game:round-started', (round, czar, blackCard) => {
+      console.log('called');
       this.elements.roundNum.textContent = `Round ${round}`;
       this.state.game.czar = czar;
       this.state.player.is_czar = czar.id == this.state.player.id;
@@ -176,7 +177,7 @@ export class GameController {
 
         // keep an action timeout for player to make sure any
         // idle player does not keep others waiting
-        this.playerIdleTimeout = setTimeout(() => {
+        this.playerIdleTimeout = Utility.executeAfterCountdown(() => {
           this.elements.playCards.disabled = true;
           this.socket.emit(
             'game:player-skipped',
@@ -211,7 +212,7 @@ export class GameController {
       // keep an action timeout for czar to end the round as draw if
       // czar is inactive
       if (this.state.player.is_czar) {
-        this.czarIdleTimeout = setTimeout(() => {
+        this.czarIdleTimeout = Utility.executeAfterCountdown(() => {
           this.elements.selectWinner.disabled = true;
           this.socket.emit('game:czar-skipped', this.state.game.code);
         }, this.state.game.idle_timeout);
@@ -248,10 +249,6 @@ export class GameController {
         this.playerHand.removeSelectedCards();
         this.gameBoard.reset();
         this.state.game.round += 1;
-
-        if (this.state.player.is_czar) {
-          this.socket.emit('game:round-start', this.state.game.code);
-        }
 
         setTimeout(
           () =>

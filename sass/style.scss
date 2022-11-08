@@ -239,6 +239,22 @@ body {
     }
   }
 
+  &-idle-timer {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: black;
+    margin: auto;
+
+    > span {
+      display: block;
+      text-align: center;
+      font-size: 1.25rem;
+      line-height: 2rem;
+      color: white;
+    }
+  }
+
   &-playing-area {
     display: flex;
     flex-direction: column;

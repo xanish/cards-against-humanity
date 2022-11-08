@@ -8,7 +8,7 @@ export class Game {
     this.round = 1;
     this.score_board = {};
     this.played_this_round = [];
-    this.idle_timeout = 30 * 1000;
+    this.idle_timeout = 30;
   }
 
   addPlayer(player) {

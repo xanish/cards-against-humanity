@@ -41,6 +41,8 @@ block content
     .game-board
       .game-board-header
         .game-board-info
+          .game-board-idle-timer
+            span#seconds
           h5#round-number
 
         .game-board-controls
@@ -64,4 +66,5 @@ block content
             select.hidden#cards-in-hand
 
   script(type="text/javascript", src="/socket.io/socket.io.js")
+  script(type="text/javascript", src="/javascripts/libs/countdown.min.js")
   script(type="module", src="/javascripts/index.js")

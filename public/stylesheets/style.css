@@ -215,6 +215,20 @@ body {
 .game-board-header button:last-child {
   margin-left: 0.5rem;
 }
+.game-board-idle-timer {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: black;
+  margin: auto;
+}
+.game-board-idle-timer > span {
+  display: block;
+  text-align: center;
+  font-size: 1.25rem;
+  line-height: 2rem;
+  color: white;
+}
 .game-board-playing-area {
   display: flex;
   flex-direction: column;

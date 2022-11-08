@@ -60,4 +60,35 @@ export class Utility {
       }
     }
   }
+
+  static executeAfterCountdown(callback, duration) {
+    let stop = false;
+    const start = Date.now() + duration * 1000;
+
+    function update() {
+      const timer = countdown(start);
+      const seconds = timer.toString().replace(' seconds', '');
+
+      if (seconds > 0 && !stop) {
+        document.getElementById('seconds').textContent = seconds;
+
+        requestAnimationFrame(update);
+      } else {
+        document.getElementById('seconds').textContent = '30';
+
+        // only execute callback if not explicitly stopped
+        if (!stop) {
+          callback();
+        }
+      }
+    }
+
+    update();
+
+    return {
+      reset: function () {
+        stop = true;
+      },
+    };
+  }
 }
