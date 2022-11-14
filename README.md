@@ -35,4 +35,4 @@ Simple implementation of the cards against humanity game using node and sockets.
   - Socket.io redis adapter
   - Prevent same browser from joining as different users (sessions / cookies)
 - Use docker compose and updaet running instructions
-- Make it response :upside_down_face:
+- Make it responsive :upside_down_face:
