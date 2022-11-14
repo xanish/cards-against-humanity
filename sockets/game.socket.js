@@ -24,8 +24,8 @@ module.exports = (io, socket) => {
 
     // todo: add logic to select from all packs / allow user to select packs
     // todo: extract the card deck creation and shuffling logic to its own function
-    let blackCards = cardPacks[13].black.sort(() => 0.5 - Math.random());
-    let whiteCards = cardPacks[13].white.sort(() => 0.5 - Math.random());
+    let blackCards = shuffle(cardPacks[13].black);
+    let whiteCards = shuffle(cardPacks[13].white);
 
     for (let i = 0; i < whiteCards.length; i++) {
       whiteCards[i].id = i + 1;
@@ -191,6 +191,17 @@ module.exports = (io, socket) => {
     game.played_this_round = [];
     game.inactive_players = [];
     game.black_cards.pop();
+  };
+
+  const shuffle = (cards) => {
+    for (let i = cards.length - 1; i > 0; i--) {
+      // random index from 0 to i
+      let j = Math.floor(Math.random() * (i + 1));
+  
+      [cards[i], cards[j]] = [cards[j], cards[i]];
+    }
+  
+    return cards;
   };
 
   socket.on('game:start', startGame);
