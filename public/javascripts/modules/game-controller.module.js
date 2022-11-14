@@ -14,6 +14,7 @@ export class GameController {
     selectWinner: document.getElementById('select-winner'),
 
     // other elements
+    idleTimer: document.getElementById('idle-timer'),
     roundNum: document.getElementById('round-number'),
     handWrapper: document.getElementById('hand'),
     gameBoardWrapper: document.getElementById(
@@ -120,6 +121,7 @@ export class GameController {
   initGameStartedEventListener() {
     this.socket.on('game:started', (myTurn) => {
       this.state.player.turn = myTurn;
+      Utility.show(this.elements.idleTimer);
 
       setTimeout(
         () =>
