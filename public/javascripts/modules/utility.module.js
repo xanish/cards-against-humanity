@@ -42,7 +42,8 @@ export class Utility {
     close.addEventListener('click', (e) => {
       popup.classList.remove('popup-anim-in');
       popup.classList.add('popup-anim-out');
-      const removePopup = () => e.target.parentNode.remove();
+      const removePopup = () =>
+        e.target ? e.target.parentNode.remove() : null;
 
       setTimeout(removePopup, 100);
     });
