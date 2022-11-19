@@ -1,0 +1,499 @@
+[
+  {
+    "id": "CAHP000001",
+    "name": "CAH Base Set",
+    "black": 282,
+    "white": 1275,
+    "official": true
+  },
+  {
+    "id": "CAHP000002",
+    "name": "2012 Holiday Pack",
+    "black": 7,
+    "white": 23,
+    "official": true
+  },
+  {
+    "id": "CAHP000003",
+    "name": "2013 Holiday Pack",
+    "black": 9,
+    "white": 21,
+    "official": true
+  },
+  {
+    "id": "CAHP000004",
+    "name": "2014 Holiday Pack",
+    "black": 7,
+    "white": 24,
+    "official": true
+  },
+  {
+    "id": "CAHP000005",
+    "name": "90s Nostalgia Pack",
+    "black": 7,
+    "white": 25,
+    "official": true
+  },
+  {
+    "id": "CAHP000006",
+    "name": "Absurd Box Expansion",
+    "black": 45,
+    "white": 257,
+    "official": true
+  },
+  {
+    "id": "CAHP000007",
+    "name": "CAH: 2000s Nostalgia Pack",
+    "black": 5,
+    "white": 25,
+    "official": true
+  },
+  {
+    "id": "CAHP000008",
+    "name": "CAH: A.I. Pack",
+    "black": 0,
+    "white": 30,
+    "official": true
+  },
+  {
+    "id": "CAHP000009",
+    "name": "CAH: Ass Pack",
+    "black": 3,
+    "white": 27,
+    "official": true
+  },
+  {
+    "id": "CAHP000010",
+    "name": "CAH: Blue Box Expansion",
+    "black": 81,
+    "white": 240,
+    "official": true
+  },
+  {
+    "id": "CAHP000011",
+    "name": "CAH: Box Expansion",
+    "black": 0,
+    "white": 23,
+    "official": true
+  },
+  {
+    "id": "CAHP000012",
+    "name": "CAH: Canadian Conversion Kit",
+    "black": 8,
+    "white": 23,
+    "official": true
+  },
+  {
+    "id": "CAHP000013",
+    "name": "CAH: College Pack",
+    "black": 6,
+    "white": 24,
+    "official": true
+  },
+  {
+    "id": "CAHP000014",
+    "name": "CAH: Family Edition (Free Print & Play Public Beta)",
+    "black": 68,
+    "white": 347,
+    "official": true
+  },
+  {
+    "id": "CAHP000015",
+    "name": "CAH: Fifth Expansion",
+    "black": 25,
+    "white": 78,
+    "official": true
+  },
+  {
+    "id": "CAHP000016",
+    "name": "CAH: First Expansion",
+    "black": 28,
+    "white": 112,
+    "official": true
+  },
+  {
+    "id": "CAHP000017",
+    "name": "CAH: Fourth Expansion",
+    "black": 31,
+    "white": 71,
+    "official": true
+  },
+  {
+    "id": "CAHP000018",
+    "name": "CAH: Green Box Expansion",
+    "black": 56,
+    "white": 249,
+    "official": true
+  },
+  {
+    "id": "CAHP000019",
+    "name": "CAH: Hidden Gems Bundle: A Few New Cards We Crammed Into This Bundle Pack (Amazon Exclusive)",
+    "black": 3,
+    "white": 7,
+    "official": true
+  },
+  {
+    "id": "CAHP000020",
+    "name": "CAH: Human Pack",
+    "black": 2,
+    "white": 28,
+    "official": true
+  },
+  {
+    "id": "CAHP000021",
+    "name": "CAH: Main Deck",
+    "black": 5,
+    "white": 34,
+    "official": true
+  },
+  {
+    "id": "CAHP000022",
+    "name": "CAH: Procedurally-Generated Cards",
+    "black": 0,
+    "white": 288,
+    "official": true
+  },
+  {
+    "id": "CAHP000023",
+    "name": "CAH: Red Box Expansion",
+    "black": 73,
+    "white": 283,
+    "official": true
+  },
+  {
+    "id": "CAHP000024",
+    "name": "CAH: Second Expansion",
+    "black": 28,
+    "white": 84,
+    "official": true
+  },
+  {
+    "id": "CAHP000025",
+    "name": "CAH: Sixth Expansion",
+    "black": 26,
+    "white": 77,
+    "official": true
+  },
+  {
+    "id": "CAHP000026",
+    "name": "CAH: Third Expansion",
+    "black": 25,
+    "white": 77,
+    "official": true
+  },
+  {
+    "id": "CAHP000027",
+    "name": "CAH: UK Conversion Kit",
+    "black": 20,
+    "white": 74,
+    "official": true
+  },
+  {
+    "id": "CAHP000028",
+    "name": "Cards Against Humanity Saves America Pack",
+    "black": 7,
+    "white": 26,
+    "official": true
+  },
+  {
+    "id": "CAHP000029",
+    "name": "ClickHole Greeting Cards Pack (Target Exclusive)",
+    "black": 5,
+    "white": 10,
+    "official": true
+  },
+  {
+    "id": "CAHP000030",
+    "name": "Dad Pack",
+    "black": 6,
+    "white": 24,
+    "official": true
+  },
+  {
+    "id": "CAHP000031",
+    "name": "Desert Bus For Hope Pack",
+    "black": 5,
+    "white": 19,
+    "official": true
+  },
+  {
+    "id": "CAHP000032",
+    "name": "Fantasy Pack",
+    "black": 6,
+    "white": 26,
+    "official": true
+  },
+  {
+    "id": "CAHP000033",
+    "name": "Fascism Pack",
+    "black": 2,
+    "white": 15,
+    "official": true
+  },
+  {
+    "id": "CAHP000034",
+    "name": "Food Pack",
+    "black": 6,
+    "white": 24,
+    "official": true
+  },
+  {
+    "id": "CAHP000035",
+    "name": "Geek Pack",
+    "black": 6,
+    "white": 24,
+    "official": true
+  },
+  {
+    "id": "CAHP000036",
+    "name": "Gen Con 2018 Midterm Election Pack",
+    "black": 2,
+    "white": 16,
+    "official": true
+  },
+  {
+    "id": "CAHP000037",
+    "name": "House of Cards Pack",
+    "black": 9,
+    "white": 16,
+    "official": true
+  },
+  {
+    "id": "CAHP000038",
+    "name": "Jack White Show Pack",
+    "black": 1,
+    "white": 6,
+    "official": true
+  },
+  {
+    "id": "CAHP000039",
+    "name": "Jew Pack/Chosen People Pack",
+    "black": 5,
+    "white": 25,
+    "official": true
+  },
+  {
+    "id": "CAHP000040",
+    "name": "Mass Effect Pack",
+    "black": 4,
+    "white": 10,
+    "official": true
+  },
+  {
+    "id": "CAHP000041",
+    "name": "Nerd Bundle: A Few More Cards For You Nerds (Target Exclusive)",
+    "black": 1,
+    "white": 9,
+    "official": true
+  },
+  {
+    "id": "CAHP000042",
+    "name": "PAX 2010 \"Oops\" Kit",
+    "black": 5,
+    "white": 9,
+    "official": true
+  },
+  {
+    "id": "CAHP000043",
+    "name": "PAX East 2013 Promo Pack A",
+    "black": 2,
+    "white": 0,
+    "official": true
+  },
+  {
+    "id": "CAHP000044",
+    "name": "PAX East 2013 Promo Pack B",
+    "black": 2,
+    "white": 8,
+    "official": true
+  },
+  {
+    "id": "CAHP000045",
+    "name": "PAX East 2013 Promo Pack C",
+    "black": 2,
+    "white": 8,
+    "official": true
+  },
+  {
+    "id": "CAHP000046",
+    "name": "PAX East 2014",
+    "black": 5,
+    "white": 22,
+    "official": true
+  },
+  {
+    "id": "CAHP000047",
+    "name": "PAX East 2014 - Panel Cards",
+    "black": 2,
+    "white": 8,
+    "official": true
+  },
+  {
+    "id": "CAHP000048",
+    "name": "PAX Prime 2013",
+    "black": 7,
+    "white": 37,
+    "official": true
+  },
+  {
+    "id": "CAHP000049",
+    "name": "PAX Prime 2014 - Panel Cards",
+    "black": 5,
+    "white": 5,
+    "official": true
+  },
+  {
+    "id": "CAHP000050",
+    "name": "PAX Prime 2014 Custom Printed Cards",
+    "black": 1,
+    "white": 105,
+    "official": true
+  },
+  {
+    "id": "CAHP000051",
+    "name": "PAX Prime 2015 Food Pack A (Mango)",
+    "black": 2,
+    "white": 8,
+    "official": true
+  },
+  {
+    "id": "CAHP000052",
+    "name": "PAX Prime 2015 Food Pack B (Coconut)",
+    "black": 2,
+    "white": 8,
+    "official": true
+  },
+  {
+    "id": "CAHP000053",
+    "name": "PAX Prime 2015 Food Pack C (Cherry)",
+    "black": 2,
+    "white": 8,
+    "official": true
+  },
+  {
+    "id": "CAHP000054",
+    "name": "Period Pack",
+    "black": 6,
+    "white": 24,
+    "official": true
+  },
+  {
+    "id": "CAHP000055",
+    "name": "Pride Pack",
+    "black": 5,
+    "white": 25,
+    "official": true
+  },
+  {
+    "id": "CAHP000056",
+    "name": "Reject Pack",
+    "black": 8,
+    "white": 16,
+    "official": true
+  },
+  {
+    "id": "CAHP000057",
+    "name": "Reject Pack 2",
+    "black": 10,
+    "white": 24,
+    "official": true
+  },
+  {
+    "id": "CAHP000058",
+    "name": "Reject Pack 3",
+    "black": 2,
+    "white": 23,
+    "official": true
+  },
+  {
+    "id": "CAHP000059",
+    "name": "Retail Mini Pack",
+    "black": 2,
+    "white": 3,
+    "official": true
+  },
+  {
+    "id": "CAHP000060",
+    "name": "Retail Product Pack",
+    "black": 1,
+    "white": 19,
+    "official": true
+  },
+  {
+    "id": "CAHP000061",
+    "name": "Sci-Fi Pack",
+    "black": 7,
+    "white": 23,
+    "official": true
+  },
+  {
+    "id": "CAHP000062",
+    "name": "Science Pack",
+    "black": 7,
+    "white": 23,
+    "official": true
+  },
+  {
+    "id": "CAHP000063",
+    "name": "Seasons Greetings Pack",
+    "black": 7,
+    "white": 23,
+    "official": true
+  },
+  {
+    "id": "CAHP000064",
+    "name": "TableTop Pack",
+    "black": 3,
+    "white": 12,
+    "official": true
+  },
+  {
+    "id": "CAHP000065",
+    "name": "Theatre Pack",
+    "black": 5,
+    "white": 25,
+    "official": true
+  },
+  {
+    "id": "CAHP000066",
+    "name": "Theatre Pack - CATS Musical Pack",
+    "black": 3,
+    "white": 27,
+    "official": true
+  },
+  {
+    "id": "CAHP000067",
+    "name": "Trump Bug Out Bag/Post-Trump Pack",
+    "black": 3,
+    "white": 22,
+    "official": true
+  },
+  {
+    "id": "CAHP000068",
+    "name": "Vote For Hillary Pack",
+    "black": 3,
+    "white": 12,
+    "official": true
+  },
+  {
+    "id": "CAHP000069",
+    "name": "Vote For Trump Pack",
+    "black": 3,
+    "white": 12,
+    "official": true
+  },
+  {
+    "id": "CAHP000070",
+    "name": "Weed Pack",
+    "black": 5,
+    "white": 25,
+    "official": true
+  },
+  {
+    "id": "CAHP000071",
+    "name": "World Wide Web Pack",
+    "black": 9,
+    "white": 21,
+    "official": true
+  }
+]
