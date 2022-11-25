@@ -1,14 +1,18 @@
 import { Game } from '../models/game.model.js';
 import { Player } from '../models/player.model.js';
+import { CardPackSelect } from './pack-select.module.js';
 import { Utility } from './utility.module.js';
 
 export class LobbyController {
   elements = {
+    // btns
+    startGameBtn: document.getElementById('start-game'),
+
+    // other elements
     lobbyTab: document.getElementById('lobby'),
     lobbyCode: document.getElementById('lobby-code'),
     lobbyCodeLabel: document.getElementById('lobby-id'),
     lobbyPlayersList: document.getElementById('players-list'),
-    startGameBtn: document.getElementById('start-game'),
   };
 
   constructor(socket, state) {
@@ -18,6 +22,10 @@ export class LobbyController {
     this.initLobbyCreatedEventListener();
     this.initLobbyJoinedEventListener();
     this.initLobbyPlayerJoinedEventListener();
+    this.initGameStartBtnListener();
+    this.initGamePlayerLeftEventListener();
+    this.initGamePlayerPromotedEventListener();
+    this.packSelect = new CardPackSelect('packs');
   }
 
   initLobbyCreatedEventListener() {
@@ -47,6 +55,7 @@ export class LobbyController {
       const lobbyCode = this.elements.lobbyCode.value;
 
       Utility.show(this.elements.lobbyTab);
+      this.packSelect.disable();
 
       for (let player of data.players) {
         this.elements.lobbyPlayersList.appendChild(this.createPlayer(player));
@@ -68,6 +77,40 @@ export class LobbyController {
       this.elements.lobbyPlayersList.appendChild(this.createPlayer(player));
 
       this.state.game.addPlayer(Player.fromJson(player));
+    });
+  }
+
+  initGameStartBtnListener() {
+    this.elements.startGameBtn.addEventListener('click', () => {
+      const settings = {
+        packs: this.packSelect.getSelected(),
+      };
+      this.socket.emit('game:start', this.state.game.code, settings);
+    });
+  }
+
+  initGamePlayerLeftEventListener() {
+    this.socket.on('lobby:player-left', (player) => {
+      Utility.popMsg(`${player.username} has left the game`, {
+        auto_close: true,
+      });
+      document
+        .querySelector(`.players-body-item[data-player-id="${player.id}"]`)
+        .remove();
+    });
+  }
+
+  initGamePlayerPromotedEventListener() {
+    this.socket.on('lobby:promoted-to-owner', (player) => {
+      Utility.popMsg(`${player.username} is now the lobby owner`, {
+        auto_close: true,
+      });
+      this.state.game.owner = player;
+      this.state.player.is_owner = this.state.player.id === player.id;
+      if (this.state.player.turn === -1 && this.state.player.is_owner) {
+        this.packSelect.enable();
+        Utility.show(this.elements.startGameBtn);
+      }
     });
   }
 

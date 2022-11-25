@@ -122,6 +122,11 @@ body {
   background-color: #e2e2e2;
 }
 
+.input-group label {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
 .btn {
   color: inherit;
   font: inherit;
@@ -233,6 +238,12 @@ body {
   line-height: 2rem;
   color: white;
 }
+.game-board-settings {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 1rem;
+  flex-grow: 1;
+}
 .game-board-playing-area {
   display: flex;
   flex-direction: column;
@@ -341,9 +352,12 @@ body {
   display: grid;
   grid-template-columns: 4fr 1fr 1fr;
   list-style-type: none;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 1rem;
   color: white;
   background-color: black;
+}
+.card-pack-select .header li:not(:first-child) {
+  text-align: right;
 }
 .card-pack-select .body {
   height: 10rem;

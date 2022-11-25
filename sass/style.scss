@@ -133,6 +133,13 @@ body {
   }
 }
 
+.input-group {
+  label {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+}
+
 .btn {
   color: inherit;
   font: inherit;
@@ -258,6 +265,13 @@ body {
       line-height: 2rem;
       color: white;
     }
+  }
+
+  &-settings {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem 1rem;
+    flex-grow: 1;
   }
 
   &-playing-area {
@@ -389,9 +403,13 @@ body {
     display: grid;
     grid-template-columns: 4fr 1fr 1fr;
     list-style-type: none;
-    padding: 0.75rem 1rem;
+    padding: 0.5rem 1rem;
     color: white;
     background-color: black;
+
+    li:not(:first-child) {
+      text-align: right;
+    }
   }
 
   .body {

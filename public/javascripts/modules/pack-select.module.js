@@ -1,6 +1,6 @@
 import { Utility } from './utility.module.js';
 
-class CardPackSelect {
+export class CardPackSelect {
   constructor(selectId) {
     this.packSelectId = selectId;
     this.body = document.querySelector('#packs > .body');

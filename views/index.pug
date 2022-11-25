@@ -28,7 +28,6 @@ block content
   
   #lobby.hidden
     .sidebar.bg-dark
-      
       h5.sidebar-title Cards Against Humanity
 
       h5.sidebar-subtitle Lobby Code: 
@@ -49,7 +48,19 @@ block content
           button#start-game.btn.light.hidden Start Game
           button#leave-game.btn.light Leave Game
       
-      #board.game-board-playing-area.bg-light
+      #settings.game-board-settings.bg-light
+        .input-group
+          label(for="packs") Card Packs
+          .card-pack-select#packs
+            input.input.light.search(type="text" name="pack-search" id="pack-search" placeholder="Search packs")
+            ul.header
+              li Pack
+              li Black Cards
+              li White Cards
+            .body
+            .footer#selected-info Selected: None
+
+      #board.game-board-playing-area.bg-light.hidden
         .table-top
           .select-wrapper
             select.hidden#cards-being-played

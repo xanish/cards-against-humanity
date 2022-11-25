@@ -8,13 +8,15 @@ import { Utility } from './utility.module.js';
 export class GameController {
   elements = {
     // btns
-    startGame: document.getElementById('start-game'),
-    leaveGame: document.getElementById('leave-game'),
-    playCards: document.getElementById('play-cards'),
-    selectWinner: document.getElementById('select-winner'),
+    startGameBtn: document.getElementById('start-game'),
+    leaveGameBtn: document.getElementById('leave-game'),
+    playCardsBtn: document.getElementById('play-cards'),
+    selectWinnerBtn: document.getElementById('select-winner'),
 
     // other elements
     idleTimer: document.getElementById('idle-timer'),
+    settings: document.getElementById('settings'),
+    playArea: document.getElementById('board'),
     roundNum: document.getElementById('round-number'),
     handWrapper: document.getElementById('hand'),
     gameBoardWrapper: document.getElementById(
@@ -32,7 +34,6 @@ export class GameController {
     this.playerHand = new PlayerHand('cards-in-hand');
 
     // btn event listeners
-    this.initGameStartBtnListener();
     this.initGameLeaveBtnListener();
     this.initGamePlayCardsBtnListener();
     this.initGameSelectWinnerBtnListener();
@@ -50,21 +51,15 @@ export class GameController {
     this.initGamePlayerPromotedEventListener();
   }
 
-  initGameStartBtnListener() {
-    this.elements.startGame.addEventListener('click', () => {
-      this.socket.emit('game:start', this.state.game.code);
-    });
-  }
-
   initGameLeaveBtnListener() {
-    this.elements.leaveGame.addEventListener('click', () => {
+    this.elements.leaveGameBtn.addEventListener('click', () => {
       this.socket.disconnect();
       window.location = '/';
     });
   }
 
   initGamePlayCardsBtnListener() {
-    this.elements.playCards.addEventListener('click', () => {
+    this.elements.playCardsBtn.addEventListener('click', () => {
       // clear idle timeout if action made by player
       this.playerIdleTimeout.reset();
       const cardsPlayed = this.playerHand.getSelectedCards();
@@ -78,7 +73,7 @@ export class GameController {
           play.toJson()
         );
         Utility.hide(this.elements.handWrapper);
-        this.elements.playCards.disabled = true;
+        this.elements.playCardsBtn.disabled = true;
       } else {
         Utility.popMsg(
           `Choose ${this.state.game.black_card.pick} cards to play`,
@@ -89,7 +84,7 @@ export class GameController {
   }
 
   initGameSelectWinnerBtnListener() {
-    this.elements.selectWinner.addEventListener('click', () => {
+    this.elements.selectWinnerBtn.addEventListener('click', () => {
       // clear idle timeout if action made by czar
       this.czarIdleTimeout.reset();
       const play = this.gameBoard.getSelectedCards();
@@ -103,7 +98,7 @@ export class GameController {
           )
         );
 
-        this.elements.selectWinner.disabled = true;
+        this.elements.selectWinnerBtn.disabled = true;
       } else {
         Utility.popMsg(`Choose a winning card combination`, {
           auto_close: true,
@@ -121,6 +116,9 @@ export class GameController {
   initGameStartedEventListener() {
     this.socket.on('game:started', (myTurn) => {
       this.state.player.turn = myTurn;
+      Utility.hide(this.elements.startGameBtn);
+      Utility.hide(this.elements.settings);
+      Utility.show(this.elements.playArea);
       Utility.show(this.elements.idleTimer);
 
       setTimeout(
@@ -143,15 +141,12 @@ export class GameController {
 
       this.playerHand.populate(this.state.player.hand);
 
-      Utility.hide(this.elements.startGame);
-
       this.socket.emit('game:round-start', this.state.game.code);
     });
   }
 
   initGameRoundStartEventListener() {
     this.socket.on('game:round-started', (round, czar, blackCard) => {
-      console.log('called');
       this.elements.roundNum.textContent = `Round ${round}`;
       this.state.game.czar = czar;
       this.state.player.is_czar = czar.id == this.state.player.id;
@@ -167,20 +162,20 @@ export class GameController {
 
       if (this.state.player.is_czar) {
         this.gameBoard.enable();
-        Utility.hide(this.elements.playCards);
+        Utility.hide(this.elements.playCardsBtn);
         Utility.hide(this.elements.handWrapper);
-        Utility.show(this.elements.selectWinner);
+        Utility.show(this.elements.selectWinnerBtn);
       } else {
         this.gameBoard.disable();
-        this.elements.playCards.disabled = false;
-        Utility.show(this.elements.playCards);
+        this.elements.playCardsBtn.disabled = false;
+        Utility.show(this.elements.playCardsBtn);
         Utility.show(this.elements.handWrapper);
-        Utility.hide(this.elements.selectWinner);
+        Utility.hide(this.elements.selectWinnerBtn);
 
         // keep an action timeout for player to make sure any
         // idle player does not keep others waiting
         this.playerIdleTimeout = Utility.executeAfterCountdown(() => {
-          this.elements.playCards.disabled = true;
+          this.elements.playCardsBtn.disabled = true;
           this.socket.emit(
             'game:player-skipped',
             this.state.game.code,
@@ -206,7 +201,7 @@ export class GameController {
   initGameSelectWinnerEventListener() {
     this.socket.on('game:select-winner', () => {
       if (this.state.player.is_czar) {
-        this.elements.selectWinner.disabled = false;
+        this.elements.selectWinnerBtn.disabled = false;
       }
 
       this.gameBoard.populate(this.state.game.played_this_round);
@@ -215,7 +210,7 @@ export class GameController {
       // czar is inactive
       if (this.state.player.is_czar) {
         this.czarIdleTimeout = Utility.executeAfterCountdown(() => {
-          this.elements.selectWinner.disabled = true;
+          this.elements.selectWinnerBtn.disabled = true;
           this.socket.emit('game:czar-skipped', this.state.game.code);
         }, this.state.game.idle_timeout);
       }
@@ -262,30 +257,6 @@ export class GameController {
           this.state.player.turn * 500
         );
       }, 5000);
-    });
-  }
-
-  initGamePlayerLeftEventListener() {
-    this.socket.on('game:player-left', (player) => {
-      Utility.popMsg(`${player.username} has left the game`, {
-        auto_close: true,
-      });
-      document
-        .querySelector(`.players-body-item[data-player-id="${player.id}"]`)
-        .remove();
-    });
-  }
-
-  initGamePlayerPromotedEventListener() {
-    this.socket.on('game:promoted-to-owner', (player) => {
-      Utility.popMsg(`${player.username} is now the lobby owner`, {
-        auto_close: true,
-      });
-      this.state.game.owner = player;
-      this.state.player.is_owner = this.state.player.id === player.id;
-      if (this.state.player.turn === -1 && this.state.player.is_owner) {
-        Utility.show(this.elements.startGame);
-      }
     });
   }
 }

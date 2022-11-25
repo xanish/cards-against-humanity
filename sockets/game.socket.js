@@ -1,8 +1,8 @@
 const games = require('../database/models/game.model');
-const cardPacks = require('../database/data/cah-cards-full-official-only.json');
+const packs = require('../database/models/pack.model');
 
 module.exports = (io, socket) => {
-  const startGame = (lobbyCode) => {
+  const startGame = (lobbyCode, settings) => {
     const game = games[lobbyCode];
     const players = game.players;
 
@@ -21,22 +21,8 @@ module.exports = (io, socket) => {
     for (let player of players) {
       game.score_board[player.id] = 0;
     }
-
-    // todo: add logic to select from all packs / allow user to select packs
-    // todo: extract the card deck creation and shuffling logic to its own function
-    let blackCards = shuffle(cardPacks[13].black);
-    let whiteCards = shuffle(cardPacks[13].white);
-
-    for (let i = 0; i < whiteCards.length; i++) {
-      whiteCards[i].id = i + 1;
-    }
-
-    for (let i = 0; i < blackCards.length; i++) {
-      blackCards[i].id = i + 1;
-    }
-
-    game.black_cards = blackCards;
-    game.white_cards = whiteCards;
+    game.black_cards = packs.blackCards(settings.packs, true);
+    game.white_cards = packs.whiteCards(settings.packs, true);
 
     // predecide the turn order in which players move for actions
     // like drawing cards
@@ -141,12 +127,12 @@ module.exports = (io, socket) => {
         // if no players are present just delete the game
         if (game.players.length > 0) {
           // inform others that a player has left
-          io.to(lobbyCode).emit('game:player-left', player);
+          io.to(lobbyCode).emit('lobby:player-left', player);
 
           // if the owner left then make a new owner and inform lobby
           if (player.is_owner) {
             game.players[0].is_owner = true;
-            io.to(lobbyCode).emit('game:promoted-to-owner', game.players[0]);
+            io.to(lobbyCode).emit('lobby:promoted-to-owner', game.players[0]);
           }
 
           // if score_board was initialised we have probably started the game
@@ -191,17 +177,6 @@ module.exports = (io, socket) => {
     game.played_this_round = [];
     game.inactive_players = [];
     game.black_cards.pop();
-  };
-
-  const shuffle = (cards) => {
-    for (let i = cards.length - 1; i > 0; i--) {
-      // random index from 0 to i
-      let j = Math.floor(Math.random() * (i + 1));
-
-      [cards[i], cards[j]] = [cards[j], cards[i]];
-    }
-
-    return cards;
   };
 
   socket.on('game:start', startGame);
