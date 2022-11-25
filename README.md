@@ -16,11 +16,12 @@ Simple implementation of the cards against humanity game using node and sockets.
 ## To do
 
 - Should probably do first
-  - Save cards in some database (sqlite? mongo?)
+  - ~~Save cards in some database (sqlite? mongo?)~~ Done (Just went with json files since its much faster for this use-case, created different json files for each use-case).
+  - Add some logic to check minimum cards needed from selected packs
 - Spagetti / Hacks
   - Find a way to get rid of delay timeouts for game:draw-cards even in game-controller.module.js
 - Lobby settings screen
-  - Card pack selection (would need to save and fetch card packs from db)
+  - ~~Card pack selection (would need to save and fetch card packs from db)~~ Done
   - Password
   - Idle timer
   - Max rounds to play
