@@ -19,8 +19,8 @@ Simple implementation of the cards against humanity game using node and sockets.
   - ~~Save cards in some database (sqlite? mongo?)~~ Done (Just went with json files since its much faster for this use-case, created different json files for each use-case).
   - Add some logic to check minimum cards needed from selected packs
   - Add validation logic for game settings
-  - Send setting updates to other players
-  - Prevent lobby join if game not started and player limit is set
+  - ~~Send setting updates to other players~~ Done
+  - ~~Prevent lobby join if game not started and player limit is set~~ Done
 - Spagetti / Hacks
   - Find a way to get rid of delay timeouts for game:draw-cards even in game-controller.module.js
 - Lobby settings screen
@@ -28,7 +28,7 @@ Simple implementation of the cards against humanity game using node and sockets.
   - Password
   - Idle timer
   - Max rounds to play
-  - Max players allowed
+  - ~~Max players allowed~~ Done
 - Extra pages?
   - Rules
   - Card packs and cards
