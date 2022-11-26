@@ -8,4 +8,9 @@ export class State {
   setGame(game) {
     this.game = game;
   }
+
+  reset() {
+    this.player.reset();
+    this.game.reset();
+  }
 }

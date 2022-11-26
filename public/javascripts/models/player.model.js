@@ -22,6 +22,12 @@ export class Player {
     }
   }
 
+  reset() {
+    this.cards = [];
+    this.turn = -1;
+    this.is_czar = false;
+  }
+
   toJson() {
     return JSON.parse(JSON.stringify(this));
   }

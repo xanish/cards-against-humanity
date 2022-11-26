@@ -16,6 +16,8 @@ module.exports = (io, socket) => {
   };
 
   const startGame = (lobbyCode, settings) => {
+    resetGameState(lobbyCode);
+
     const game = games[lobbyCode];
     const players = game.players;
 
@@ -27,10 +29,6 @@ module.exports = (io, socket) => {
       return;
     }
 
-    game.czar_index = 0;
-    game.current_round = 1;
-    game.played_this_round = [];
-    game.score_board = {};
     for (let player of players) {
       game.score_board[player.id] = 0;
     }
@@ -115,22 +113,33 @@ module.exports = (io, socket) => {
     // increment score of winner
     game.score_board[winner.id] += 1;
 
-    // inform about round winner and send updated score board
-    io.to(lobbyCode).emit('game:round-won-by', winner);
-    io.to(lobbyCode).emit('game:round-end', game.score_board);
+    // if max score reached score limit end the game
+    const winningPlayerId = shouldEndGame(lobbyCode);
+    if (winningPlayerId !== -1) {
+      resetGameState(lobbyCode);
+      const winningPlayer = game.players.find((p) => p.id === winningPlayerId);
+      io.to(lobbyCode).emit(
+        'game:finish',
+        `${winningPlayer.username} won the game!`
+      );
+    } else {
+      // update game state to prepare for next round
+      updateStateToNextRound(lobbyCode);
 
-    // update game state to prepare for next round
-    updateStateToNextRound(lobbyCode);
+      // inform about round winner and send updated score board
+      io.to(lobbyCode).emit('game:round-won-by', winner);
+      io.to(lobbyCode).emit('game:round-end', game.score_board);
+    }
   };
 
   const czarSkippedRound = (lobbyCode) => {
     const game = games[lobbyCode];
 
-    io.to(lobbyCode).emit('game:round-won-by');
-    io.to(lobbyCode).emit('game:round-end', game.score_board);
-
     // update game state to prepare for next round
     updateStateToNextRound(lobbyCode);
+
+    io.to(lobbyCode).emit('game:round-won-by');
+    io.to(lobbyCode).emit('game:round-end', game.score_board);
   };
 
   const playerLeft = (reason) => {
@@ -159,13 +168,13 @@ module.exports = (io, socket) => {
 
             // if the czar left then just end the round declaring it as ended
             if (player.is_czar) {
-              io.to(lobbyCode).emit('game:round-won-by');
-              io.to(lobbyCode).emit('game:round-end', game.score_board);
-
               // update game state to prepare for next round
               // note we dont need to update the czar index if the czar left
               // because the index automatically goes to the next player in line
               updateStateToNextRound(lobbyCode, true);
+
+              io.to(lobbyCode).emit('game:round-won-by');
+              io.to(lobbyCode).emit('game:round-end', game.score_board);
             } else {
               // if a non czar player left then check if everyone has played
               // if yes then ask czar to select winner?
@@ -194,6 +203,39 @@ module.exports = (io, socket) => {
     game.played_this_round = [];
     game.inactive_players = [];
     game.black_cards.pop();
+  };
+
+  const shouldEndGame = (lobbyCode) => {
+    const game = games[lobbyCode];
+
+    // find max score and the player holding the current max score
+    let maxScore = -1;
+    let winningPlayerId = -1;
+    for (let playerId in game.score_board) {
+      if (game.score_board[playerId] > maxScore) {
+        maxScore = game.score_board[playerId];
+        winningPlayerId = playerId;
+      }
+    }
+
+    return maxScore >= game.settings.score_limit ? winningPlayerId : -1;
+  };
+
+  const resetGameState = (lobbyCode) => {
+    const defaults = {
+      czar_index: 0,
+      current_round: 1,
+      played_this_round: [],
+      score_board: {},
+      black_cards: [],
+      white_cards: [],
+    };
+    const game = games[lobbyCode];
+
+    games[lobbyCode] = {
+      ...game,
+      ...defaults,
+    };
   };
 
   socket.on('game:update-settings', updateSettings);

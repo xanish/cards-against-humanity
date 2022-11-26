@@ -47,6 +47,7 @@ export class GameController {
     this.initGameSelectWinnerEventListener();
     this.initGameRoundWonByEventListener();
     this.initGameRoundEndEventListener();
+    this.initGameFinishEventListener();
   }
 
   initGameLeaveBtnListener() {
@@ -230,14 +231,7 @@ export class GameController {
 
   initGameRoundEndEventListener() {
     this.socket.on('game:round-end', (scoreBoard) => {
-      let scoreNode = null;
-
-      for (let playerId in scoreBoard) {
-        scoreNode = document.querySelector(
-          `span.player-score[data-player-id="${playerId}"]`
-        );
-        scoreNode.textContent = scoreBoard[playerId];
-      }
+      this.updateScores(scoreBoard);
 
       setTimeout(() => {
         this.state.game.played_this_round = [];
@@ -256,5 +250,58 @@ export class GameController {
         );
       }, 5000);
     });
+  }
+
+  initGameFinishEventListener() {
+    this.socket.on('game:finish', (msg) => {
+      // reset game board and player hand
+      this.gameBoard.reset();
+      this.playerHand.reset();
+
+      // reset counter
+      if (this.czarIdleTimeout) {
+        this.czarIdleTimeout.reset();
+      }
+      if (this.playerIdleTimeout) {
+        this.playerIdleTimeout.reset();
+      }
+
+      // reset to setting page
+      if (this.state.player.is_owner) {
+        Utility.show(this.elements.startGameBtn);
+      }
+      Utility.show(this.elements.settings);
+      Utility.hide(this.elements.playArea);
+      Utility.hide(this.elements.idleTimer);
+
+      // reset round label
+      this.elements.roundNum.textContent = '';
+
+      // reset score board
+      const scoreBoard = {};
+      for (let player of this.state.game.players) {
+        scoreBoard[player.id] = 0;
+      }
+      this.updateScores(scoreBoard);
+
+      // reset state, player and game
+      this.state.reset();
+
+      // display game ended with winner message
+      Utility.popMsg(msg, { auto_close: true });
+    });
+  }
+
+  updateScores(scoreBoard) {
+    let scoreNode = null;
+
+    for (let playerId in scoreBoard) {
+      scoreNode = document.querySelector(
+        `span.player-score[data-player-id="${playerId}"]`
+      );
+      if (scoreNode) {
+        scoreNode.textContent = scoreBoard[playerId];
+      }
+    }
   }
 }

@@ -55,6 +55,11 @@ block content
           input.input.light(type="text" value="5" name="player-limit" id="player-limit" placeholder="Max players allowed in game (Between 3, 20)")
         
         .input-group.w-50
+          label(for="score-limit") Score Limit
+            span.validation-error
+          input.input.light(type="text" value="10" name="score-limit" id="score-limit" placeholder="Max score to end game (Between 1, 50)")
+        
+        .input-group.w-50
           label(for="packs") Card Packs
             span.validation-error
           .card-pack-select#packs

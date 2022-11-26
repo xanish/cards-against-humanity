@@ -18,7 +18,7 @@ Simple implementation of the cards against humanity game using node and sockets.
 - Should probably do first
   - ~~Save cards in some database (sqlite? mongo?)~~ Done (Just went with json files since its much faster for this use-case, created different json files for each use-case).
   - Add some logic to check minimum cards needed from selected packs
-  - Add validation logic for game settings
+  - ~~Add validation logic for game settings~~ Done
   - ~~Send setting updates to other players~~ Done
   - ~~Prevent lobby join if game not started and player limit is set~~ Done
 - Spagetti / Hacks
@@ -27,7 +27,7 @@ Simple implementation of the cards against humanity game using node and sockets.
   - ~~Card pack selection (would need to save and fetch card packs from db)~~ Done
   - Password
   - Idle timer
-  - Max rounds to play
+  - ~~Max rounds to play~~ Done
   - ~~Max players allowed~~ Done
 - Extra pages?
   - Rules

@@ -98,6 +98,7 @@ export class LobbyController {
       Utility.popMsg(`${player.username} has left the game`, {
         auto_close: true,
       });
+      this.state.game.removePlayer(player);
       document
         .querySelector(`.players-body-item[data-player-id="${player.id}"]`)
         .remove();
