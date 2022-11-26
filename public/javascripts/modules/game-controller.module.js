@@ -47,8 +47,6 @@ export class GameController {
     this.initGameSelectWinnerEventListener();
     this.initGameRoundWonByEventListener();
     this.initGameRoundEndEventListener();
-    this.initGamePlayerLeftEventListener();
-    this.initGamePlayerPromotedEventListener();
   }
 
   initGameLeaveBtnListener() {

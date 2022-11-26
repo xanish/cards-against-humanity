@@ -2,6 +2,17 @@ const games = require('../database/models/game.model');
 const packs = require('../database/models/pack.model');
 
 module.exports = (io, socket) => {
+  const updateSettings = (lobbyCode, settings) => {
+    const game = games[lobbyCode];
+    game.settings = {
+      ...game.settings,
+      ...settings,
+    };
+
+    // send only to other sockets in room
+    socket.to(lobbyCode).emit('game:sync-settings', game.settings);
+  };
+
   const startGame = (lobbyCode, settings) => {
     const game = games[lobbyCode];
     const players = game.players;
@@ -183,6 +194,7 @@ module.exports = (io, socket) => {
     game.black_cards.pop();
   };
 
+  socket.on('game:update-settings', updateSettings);
   socket.on('game:start', startGame);
   socket.on('game:draw-cards', drawCards);
   socket.on('game:round-start', startRound);

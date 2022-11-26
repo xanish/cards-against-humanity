@@ -3,6 +3,7 @@ import { Utility } from './utility.module.js';
 export class CardPackSelect {
   constructor(selectId) {
     this.packSelectId = selectId;
+    this.component = document.getElementById(selectId);
     this.body = document.querySelector('#packs > .body');
     this.search = document.getElementById('pack-search');
     this.selectedInfo = document.getElementById('selected-info');
@@ -72,11 +73,27 @@ export class CardPackSelect {
           );
           this.count.black -= this.packs[packOption.dataset.packIndex].black;
           this.count.white -= this.packs[packOption.dataset.packIndex].white;
+          this.component.dispatchEvent(
+            new CustomEvent('pack-removed', {
+              detail: {
+                current: packOption.dataset.packId,
+                all: this.selected,
+              },
+            })
+          );
         } else {
           packOption.classList.add('selected');
           this.selected.push(packOption.dataset.packId);
           this.count.black += this.packs[packOption.dataset.packIndex].black;
           this.count.white += this.packs[packOption.dataset.packIndex].white;
+          this.component.dispatchEvent(
+            new CustomEvent('pack-selected', {
+              detail: {
+                current: packOption.dataset.packId,
+                all: this.selected,
+              },
+            })
+          );
         }
         this.updateSelectedText();
       }
@@ -105,6 +122,37 @@ export class CardPackSelect {
 
   getSelected() {
     return this.selected;
+  }
+
+  setSelected(selectedPacks) {
+    if (selectedPacks) {
+      this.resetSelected();
+      this.selected = selectedPacks;
+      for (let packId of selectedPacks) {
+        const packOption = document.querySelector(
+          `.pack-option[data-pack-id="${packId}"]`
+        );
+        packOption.classList.add('selected');
+        this.count.black += this.packs[packOption.dataset.packIndex].black;
+        this.count.white += this.packs[packOption.dataset.packIndex].white;
+      }
+      this.updateSelectedText();
+    }
+  }
+
+  resetSelected() {
+    for (let packId of this.selected) {
+      const packOption = document.querySelector(
+        `.pack-option[data-pack-id="${packId}"]`
+      );
+      packOption.classList.remove('selected');
+    }
+    this.selected = [];
+    this.count = {
+      black: 0,
+      white: 0,
+    };
+    this.updateSelectedText();
   }
 
   disable() {

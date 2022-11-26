@@ -1,6 +1,6 @@
 import { Game } from '../models/game.model.js';
 import { Player } from '../models/player.model.js';
-import { CardPackSelect } from './pack-select.module.js';
+import { SettingsHandler } from './settings-handler.module.js';
 import { Utility } from './utility.module.js';
 
 export class LobbyController {
@@ -28,7 +28,7 @@ export class LobbyController {
     this.initGameStartBtnListener();
     this.initPlayerLeftEventListener();
     this.initPlayerPromotedEventListener();
-    this.packSelect = new CardPackSelect('packs');
+    this.settingsHandler = new SettingsHandler(socket, state);
   }
 
   initLobbyCreatedEventListener() {
@@ -58,7 +58,7 @@ export class LobbyController {
       const lobbyCode = this.elements.lobbyCode.value;
 
       Utility.show(this.elements.lobbyTab);
-      this.packSelect.disable();
+      this.settingsHandler.disableElements();
 
       for (let player of data.players) {
         this.elements.lobbyPlayersList.appendChild(this.createPlayer(player));
@@ -85,11 +85,11 @@ export class LobbyController {
 
   initGameStartBtnListener() {
     this.elements.startGameBtn.addEventListener('click', () => {
-      const settings = {
-        player_limit: +this.elements.playerLimit.value,
-        packs: this.packSelect.getSelected(),
-      };
-      this.socket.emit('game:start', this.state.game.code, settings);
+      this.socket.emit(
+        'game:start',
+        this.state.game.code,
+        this.settingsHandler.getSettings()
+      );
     });
   }
 
@@ -112,7 +112,7 @@ export class LobbyController {
       this.state.game.owner = player;
       this.state.player.is_owner = this.state.player.id === player.id;
       if (this.state.player.turn === -1 && this.state.player.is_owner) {
-        this.packSelect.enable();
+        this.settingsHandler.enableElements();
         Utility.show(this.elements.startGameBtn);
       }
     });
