@@ -23,6 +23,10 @@ body {
   background-color: white;
 }
 
+.w-50 {
+  width: 50%;
+}
+
 #popup-wrapper {
   position: fixed;
   z-index: 1;
@@ -122,6 +126,9 @@ body {
   background-color: #e2e2e2;
 }
 
+.input-group {
+  margin-bottom: 1rem;
+}
 .input-group label {
   display: block;
   margin-bottom: 0.25rem;

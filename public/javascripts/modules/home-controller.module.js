@@ -26,7 +26,8 @@ export class HomeController {
     this.initSetUsernameBtnListener();
     this.initCreateNewLobbyBtnListener();
     this.initJoinExistingLobbyBtnListener();
-    this.initGameNotFoundEventListener();
+    this.initLobbyNotFoundEventListener();
+    this.initLobbyFullEventListener();
   }
 
   initSetUsernameBtnListener() {
@@ -69,10 +70,17 @@ export class HomeController {
     });
   }
 
-  initGameNotFoundEventListener() {
+  initLobbyNotFoundEventListener() {
     this.socket.on('lobby:not-found', () => {
       Utility.show(this.elements.homeTab);
       Utility.popMsg(`Game does not exist or has ended`, { auto_close: true });
+    });
+  }
+
+  initLobbyFullEventListener() {
+    this.socket.on('lobby:full', (msg) => {
+      Utility.show(this.elements.homeTab);
+      Utility.popMsg(msg, { auto_close: true });
     });
   }
 

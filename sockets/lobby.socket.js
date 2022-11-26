@@ -1,5 +1,6 @@
 const nanoid = require('nanoid');
 const games = require('../database/models/game.model');
+const defaultGameSettings = require('../config/game-settings.config');
 
 module.exports = (io, socket) => {
   const createLobby = (player) => {
@@ -12,6 +13,7 @@ module.exports = (io, socket) => {
     games[lobbyCode] = {
       players: [player],
       owner: player,
+      settings: defaultGameSettings,
     };
 
     // join the lobby
@@ -24,9 +26,20 @@ module.exports = (io, socket) => {
   const joinLobby = (lobbyCode, player) => {
     if (games[lobbyCode]) {
       // game exists
+      const game = games[lobbyCode];
+      const settings = game.settings;
+
+      if (
+        settings.player_limit &&
+        game.players.length === settings.player_limit
+      ) {
+        io.to(socket.id).emit('lobby:full', 'Lobby is full');
+        return;
+      }
+
       player.socket_id = socket.id;
       player.is_owner = false;
-      games[lobbyCode].players.push(player);
+      game.players.push(player);
 
       // join the lobby
       socket.join(lobbyCode);
@@ -36,8 +49,8 @@ module.exports = (io, socket) => {
 
       // provide current joined user with all info
       socket.emit('lobby:joined', {
-        players: games[lobbyCode].players,
-        owner: games[lobbyCode].owner,
+        players: game.players,
+        owner: game.owner,
       });
     } else {
       // invalid lobby code

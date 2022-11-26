@@ -8,6 +8,9 @@ export class LobbyController {
     // btns
     startGameBtn: document.getElementById('start-game'),
 
+    // input fields
+    playerLimit: document.getElementById('player-limit'),
+
     // other elements
     lobbyTab: document.getElementById('lobby'),
     lobbyCode: document.getElementById('lobby-code'),
@@ -23,8 +26,8 @@ export class LobbyController {
     this.initLobbyJoinedEventListener();
     this.initLobbyPlayerJoinedEventListener();
     this.initGameStartBtnListener();
-    this.initGamePlayerLeftEventListener();
-    this.initGamePlayerPromotedEventListener();
+    this.initPlayerLeftEventListener();
+    this.initPlayerPromotedEventListener();
     this.packSelect = new CardPackSelect('packs');
   }
 
@@ -83,13 +86,14 @@ export class LobbyController {
   initGameStartBtnListener() {
     this.elements.startGameBtn.addEventListener('click', () => {
       const settings = {
+        player_limit: +this.elements.playerLimit.value,
         packs: this.packSelect.getSelected(),
       };
       this.socket.emit('game:start', this.state.game.code, settings);
     });
   }
 
-  initGamePlayerLeftEventListener() {
+  initPlayerLeftEventListener() {
     this.socket.on('lobby:player-left', (player) => {
       Utility.popMsg(`${player.username} has left the game`, {
         auto_close: true,
@@ -100,7 +104,7 @@ export class LobbyController {
     });
   }
 
-  initGamePlayerPromotedEventListener() {
+  initPlayerPromotedEventListener() {
     this.socket.on('lobby:promoted-to-owner', (player) => {
       Utility.popMsg(`${player.username} is now the lobby owner`, {
         auto_close: true,

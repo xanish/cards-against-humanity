@@ -23,6 +23,10 @@ module.exports = (io, socket) => {
     }
     game.black_cards = packs.blackCards(settings.packs, true);
     game.white_cards = packs.whiteCards(settings.packs, true);
+    game.settings = {
+      ...game.settings,
+      ...settings,
+    };
 
     // predecide the turn order in which players move for actions
     // like drawing cards

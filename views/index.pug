@@ -50,6 +50,10 @@ block content
       
       #settings.game-board-settings.bg-light
         .input-group
+          label(for="player-limit") Player Limit
+          input.input.light.w-50(type="text" value="3" name="player-limit" id="player-limit" placeholder="Max players allowed in game (Between 3, 20)")
+        
+        .input-group
           label(for="packs") Card Packs
           .card-pack-select#packs
             input.input.light.search(type="text" name="pack-search" id="pack-search" placeholder="Search packs")
