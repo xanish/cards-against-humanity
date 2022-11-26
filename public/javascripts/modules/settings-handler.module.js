@@ -4,6 +4,7 @@ export class SettingsHandler {
   constructor(socket, state) {
     this.settings = {
       player_limit: 5,
+      packs: [],
     };
     this.socket = socket;
     this.state = state;
@@ -17,8 +18,17 @@ export class SettingsHandler {
 
   initPlayerLimitChangeListener() {
     this.playerLimit.addEventListener('blur', () => {
-      this.settings.player_limit = +this.playerLimit.value;
-      this.updateSettings();
+      const limit = +this.playerLimit.value;
+      const errors = this.playerLimit.parentNode.querySelector(
+        'label > .validation-error'
+      );
+      if (limit >= 3 && limit <= 20) {
+        errors.textContent = '';
+        this.settings.player_limit = +this.playerLimit.value;
+        this.updateSettings();
+      } else {
+        errors.textContent = 'Number of players must be between 3 to 20';
+      }
     });
   }
 

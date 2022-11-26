@@ -49,12 +49,14 @@ block content
           button#leave-game.btn.light Leave Game
       
       #settings.game-board-settings.bg-light
-        .input-group
+        .input-group.w-50
           label(for="player-limit") Player Limit
-          input.input.light.w-50(type="text" value="5" name="player-limit" id="player-limit" placeholder="Max players allowed in game (Between 3, 20)")
+            span.validation-error
+          input.input.light(type="text" value="5" name="player-limit" id="player-limit" placeholder="Max players allowed in game (Between 3, 20)")
         
-        .input-group
+        .input-group.w-50
           label(for="packs") Card Packs
+            span.validation-error
           .card-pack-select#packs
             input.input.light.search(type="text" name="pack-search" id="pack-search" placeholder="Search packs")
             ul.header

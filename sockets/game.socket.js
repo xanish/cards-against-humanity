@@ -3,14 +3,16 @@ const packs = require('../database/models/pack.model');
 
 module.exports = (io, socket) => {
   const updateSettings = (lobbyCode, settings) => {
-    const game = games[lobbyCode];
-    game.settings = {
-      ...game.settings,
-      ...settings,
-    };
+    if (settings) {
+      const game = games[lobbyCode];
+      game.settings = {
+        ...game.settings,
+        ...settings,
+      };
 
-    // send only to other sockets in room
-    socket.to(lobbyCode).emit('game:sync-settings', game.settings);
+      // send only to other sockets in room
+      socket.to(lobbyCode).emit('game:sync-settings', game.settings);
+    }
   };
 
   const startGame = (lobbyCode, settings) => {
