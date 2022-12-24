@@ -26,7 +26,7 @@ Simple implementation of the cards against humanity game using node and sockets.
 - Lobby settings screen
   - ~~Card pack selection (would need to save and fetch card packs from db)~~ Done
   - Password
-  - Idle timer
+  - ~~Idle timer~~ Done
   - ~~Max rounds to play~~ Done
   - ~~Max players allowed~~ Done
 - Extra pages?

@@ -75,7 +75,7 @@ export class Utility {
 
         requestAnimationFrame(update);
       } else {
-        document.getElementById('seconds').textContent = '30';
+        document.getElementById('seconds').textContent = duration;
 
         // only execute callback if not explicitly stopped
         if (!stop) {

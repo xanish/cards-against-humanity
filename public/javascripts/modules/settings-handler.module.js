@@ -5,16 +5,19 @@ export class SettingsHandler {
     this.settings = {
       player_limit: 5,
       score_limit: 10,
+      idle_time_multiplier: 1,
       packs: [],
     };
     this.socket = socket;
     this.state = state;
     this.playerLimit = document.getElementById('player-limit');
     this.scoreLimit = document.getElementById('score-limit');
+    this.idleTimeMultiplier = document.getElementById('idle-time-multiplier');
     this.packSelect = document.getElementById('packs');
     this.packSelectHandler = new CardPackSelect('packs');
     this.initPlayerLimitChangeListener();
     this.initScoreLimitChangeListener();
+    this.initIdleTimeMultiplierChangeListener();
     this.initCardPackSelectListener();
     this.initSyncSettingsEventListener();
   }
@@ -51,6 +54,13 @@ export class SettingsHandler {
     });
   }
 
+  initIdleTimeMultiplierChangeListener() {
+    this.idleTimeMultiplier.addEventListener('change', () => {
+      this.settings.idle_time_multiplier = +this.idleTimeMultiplier.value;
+      this.updateSettings();
+    });
+  }
+
   initCardPackSelectListener() {
     const packsUpdated = (e) => {
       this.settings.packs = e.detail.all;
@@ -64,7 +74,9 @@ export class SettingsHandler {
     this.socket.on('game:sync-settings', (settings) => {
       this.playerLimit.value = settings.player_limit;
       this.scoreLimit.value = settings.score_limit;
+      this.idleTimeMultiplier.value = settings.idle_time_multiplier;
       this.packSelectHandler.setSelected(settings.packs);
+      this.state.game.updateSettings(settings);
     });
   }
 
@@ -74,6 +86,7 @@ export class SettingsHandler {
       this.state.game.code,
       this.settings
     );
+    this.state.game.updateSettings(this.settings);
   }
 
   getSettings() {
@@ -83,12 +96,14 @@ export class SettingsHandler {
   enableElements() {
     this.playerLimit.removeAttribute('disabled');
     this.scoreLimit.removeAttribute('disabled');
+    this.idleTimeMultiplier.removeAttribute('disabled');
     this.packSelectHandler.enable();
   }
 
   disableElements() {
     this.playerLimit.setAttribute('disabled', true);
     this.scoreLimit.setAttribute('disabled', true);
+    this.idleTimeMultiplier.setAttribute('disabled', true);
     this.packSelectHandler.disable();
   }
 }
