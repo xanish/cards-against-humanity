@@ -6,6 +6,7 @@ export class HomeController {
     // inputs
     userName: document.getElementById('username'),
     lobbyCode: document.getElementById('lobby-code'),
+    password: document.getElementById('lobby-password'),
 
     // btns
     setUser: document.getElementById('set-username'),
@@ -27,7 +28,7 @@ export class HomeController {
     this.initCreateNewLobbyBtnListener();
     this.initJoinExistingLobbyBtnListener();
     this.initLobbyNotFoundEventListener();
-    this.initLobbyFullEventListener();
+    this.initLobbyJoinFailedEventListener();
   }
 
   initSetUsernameBtnListener() {
@@ -62,8 +63,14 @@ export class HomeController {
     this.elements.joinExisting.addEventListener('click', () => {
       if (this.isPlayerValid()) {
         const lobbyCode = this.elements.lobbyCode.value;
+        const password = this.elements.password.value;
 
-        this.socket.emit('lobby:join', lobbyCode, this.state.player.toJson());
+        this.socket.emit(
+          'lobby:join',
+          lobbyCode,
+          password,
+          this.state.player.toJson()
+        );
 
         Utility.hide(this.elements.homeTab);
       }
@@ -77,8 +84,8 @@ export class HomeController {
     });
   }
 
-  initLobbyFullEventListener() {
-    this.socket.on('lobby:full', (msg) => {
+  initLobbyJoinFailedEventListener() {
+    this.socket.on('lobby:error', (msg) => {
       Utility.show(this.elements.homeTab);
       Utility.popMsg(msg, { auto_close: true });
     });

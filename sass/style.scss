@@ -102,7 +102,9 @@ body {
     }
 
     input[type='text'],
+    input[type='password'],
     button {
+      text-align: center;
       width: 50%;
     }
 

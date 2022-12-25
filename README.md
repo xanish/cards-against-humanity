@@ -25,7 +25,7 @@ Simple implementation of the cards against humanity game using node and sockets.
   - Find a way to get rid of delay timeouts for game:draw-cards even in game-controller.module.js
 - Lobby settings screen
   - ~~Card pack selection (would need to save and fetch card packs from db)~~ Done
-  - Password
+  - ~~Password~~ Done
   - ~~Idle timer~~ Done
   - ~~Max rounds to play~~ Done
   - ~~Max players allowed~~ Done

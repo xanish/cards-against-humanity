@@ -3,6 +3,7 @@ import { CardPackSelect } from './pack-select.module.js';
 export class SettingsHandler {
   constructor(socket, state) {
     this.settings = {
+      password: '',
       player_limit: 5,
       score_limit: 10,
       idle_time_multiplier: 1,
@@ -10,16 +11,25 @@ export class SettingsHandler {
     };
     this.socket = socket;
     this.state = state;
+    this.password = document.getElementById('password');
     this.playerLimit = document.getElementById('player-limit');
     this.scoreLimit = document.getElementById('score-limit');
     this.idleTimeMultiplier = document.getElementById('idle-time-multiplier');
     this.packSelect = document.getElementById('packs');
     this.packSelectHandler = new CardPackSelect('packs');
+    this.initPasswordChangeListener();
     this.initPlayerLimitChangeListener();
     this.initScoreLimitChangeListener();
     this.initIdleTimeMultiplierChangeListener();
     this.initCardPackSelectListener();
     this.initSyncSettingsEventListener();
+  }
+
+  initPasswordChangeListener() {
+    this.password.addEventListener('blur', () => {
+      this.settings.password = this.password.value;
+      this.updateSettings();
+    });
   }
 
   initPlayerLimitChangeListener() {
@@ -94,6 +104,7 @@ export class SettingsHandler {
   }
 
   enableElements() {
+    this.password.removeAttribute('disabled');
     this.playerLimit.removeAttribute('disabled');
     this.scoreLimit.removeAttribute('disabled');
     this.idleTimeMultiplier.removeAttribute('disabled');
@@ -101,6 +112,7 @@ export class SettingsHandler {
   }
 
   disableElements() {
+    this.password.setAttribute('disabled', true);
     this.playerLimit.setAttribute('disabled', true);
     this.scoreLimit.setAttribute('disabled', true);
     this.idleTimeMultiplier.setAttribute('disabled', true);

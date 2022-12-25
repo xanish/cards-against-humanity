@@ -97,7 +97,9 @@ body {
   align-items: center;
 }
 .home-item input[type='text'],
+.home-item input[type='password'],
 .home-item button {
+  text-align: center;
   width: 50%;
 }
 .home-item *:not(:last-child) {

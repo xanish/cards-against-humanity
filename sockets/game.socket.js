@@ -11,7 +11,13 @@ module.exports = (io, socket) => {
       };
 
       // send only to other sockets in room
-      socket.to(lobbyCode).emit('game:sync-settings', game.settings);
+      // no need to share password
+      socket.to(lobbyCode).emit('game:sync-settings', {
+        player_limit: game.settings.player_limit,
+        score_limit: game.settings.score_limit,
+        idle_time_multiplier: game.settings.idle_time_multiplier,
+        packs: game.settings.packs,
+      });
     }
   };
 

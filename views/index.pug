@@ -12,6 +12,7 @@ block content
           type="text"
           name="username"
           id="username"
+          placeholder="SuperCoolName"
         )
         button#set-username.btn.light Set Username
 
@@ -23,6 +24,13 @@ block content
           type="text"
           name="lobby-code"
           id="lobby-code"
+          placeholder="Lobby Code (Probably some short gibberish text)"
+        )
+        input.input.dark(
+          type="password"
+          name="lobby-password"
+          id="lobby-password"
+          placeholder="Lobby Password (If any)"
         )
         button#join-existing.btn.dark Join Existing Game
 
@@ -49,6 +57,11 @@ block content
           button#leave-game.btn.light Leave Game
 
       #settings.game-board-settings.bg-light
+        .input-group.w-50
+          label(for="password") Game Password
+            span.validation-error
+          input.input.light(type="password" value="" name="password" id="password" placeholder="Game password")
+
         .input-group.w-50
           label(for="player-limit") Player Limit
             span.validation-error

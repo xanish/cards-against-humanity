@@ -23,17 +23,22 @@ module.exports = (io, socket) => {
     io.to(lobbyCode).emit('lobby:created', lobbyCode);
   };
 
-  const joinLobby = (lobbyCode, player) => {
+  const joinLobby = (lobbyCode, password, player) => {
     if (games[lobbyCode]) {
       // game exists
       const game = games[lobbyCode];
       const settings = game.settings;
 
+      if (password !== settings.password) {
+        io.to(socket.id).emit('lobby:error', 'Invalid lobby creds');
+        return;
+      }
+
       if (
         settings.player_limit &&
         game.players.length === settings.player_limit
       ) {
-        io.to(socket.id).emit('lobby:full', 'Lobby is full');
+        io.to(socket.id).emit('lobby:error', 'Lobby is full');
         return;
       }
 
