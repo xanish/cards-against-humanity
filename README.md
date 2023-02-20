@@ -22,7 +22,7 @@ Simple implementation of the cards against humanity game using node and sockets.
   - ~~Send setting updates to other players~~ Done
   - ~~Prevent lobby join if game not started and player limit is set~~ Done
 - Spagetti / Hacks
-  - Find a way to get rid of delay timeouts for game:draw-cards even in game-controller.module.js
+  - ~~Find a way to get rid of delay timeouts for game:draw-cards even in game-controller.module.js~~ Done
 - Lobby settings screen
   - ~~Card pack selection (would need to save and fetch card packs from db)~~ Done
   - ~~Password~~ Done

@@ -120,15 +120,15 @@ export class GameController {
       Utility.show(this.elements.playArea);
       Utility.show(this.elements.idleTimer);
 
-      setTimeout(
-        () =>
-          this.socket.emit(
-            'game:draw-cards',
-            this.state.game.code,
-            this.maxCards
-          ),
-        myTurn * 500
-      );
+      // owner asks server to distribute cards
+      // when game begins
+      if (this.state.player.is_owner) {
+        this.socket.emit(
+          'game:draw-cards',
+          this.state.game.code,
+          this.maxCards
+        );
+      }
     });
   }
 
@@ -233,22 +233,20 @@ export class GameController {
     this.socket.on('game:round-end', (scoreBoard) => {
       this.updateScores(scoreBoard);
 
-      setTimeout(() => {
-        this.state.game.played_this_round = [];
-        this.playerHand.removeSelectedCards();
-        this.gameBoard.reset();
-        this.state.game.round += 1;
+      this.state.game.played_this_round = [];
+      this.playerHand.removeSelectedCards();
+      this.gameBoard.reset();
+      this.state.game.round += 1;
 
-        setTimeout(
-          () =>
-            this.socket.emit(
-              'game:draw-cards',
-              this.state.game.code,
-              this.maxCards - this.playerHand.getCountOfCards()
-            ),
-          this.state.player.turn * 500
+      if (this.state.player.is_czar) {
+        // mark this player as not czar anymore
+        this.state.player.is_czar = false;
+        this.socket.emit(
+          'game:draw-cards',
+          this.state.game.code,
+          this.maxCards
         );
-      }, 5000);
+      }
     });
   }
 

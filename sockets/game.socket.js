@@ -37,6 +37,7 @@ module.exports = (io, socket) => {
 
     for (let player of players) {
       game.score_board[player.id] = 0;
+      player.hand = [];
     }
     game.black_cards = packs.blackCards(settings.packs, true);
     game.white_cards = packs.whiteCards(settings.packs, true);
@@ -53,17 +54,21 @@ module.exports = (io, socket) => {
     }
   };
 
-  const drawCards = (lobbyCode, cardCount) => {
+  const drawCards = (lobbyCode, maxCardCount) => {
     const game = games[lobbyCode];
 
-    let cardsToSend = [];
-    // todo: extract card draw logic to its own function
-    if (cardCount > 0) {
-      cardsToSend = game.white_cards.slice(0, cardCount);
-      game.white_cards = game.white_cards.slice(cardCount);
-    }
+    for (let player of game.players) {
+      let cardsToSend = [];
+      const cardsToGive = maxCardCount - player.hand.length;
+      // todo: extract card draw logic to its own function
+      if (cardsToGive > 0) {
+        cardsToSend = game.white_cards.slice(0, cardsToGive);
+        player.hand = [...player.hand, ...cardsToSend];
+        game.white_cards = game.white_cards.slice(cardsToGive);
+      }
 
-    io.to(socket.id).emit('game:cards', cardsToSend);
+      io.to(player.socket_id).emit('game:cards', cardsToSend);
+    }
   };
 
   const startRound = (lobbyCode) => {
@@ -87,6 +92,14 @@ module.exports = (io, socket) => {
 
   const playCards = (lobbyCode, playedCards) => {
     const game = games[lobbyCode];
+    const playedCardIds = playedCards.cards.map((pc) => pc.id);
+    const player = game.players.find((p) => p.socket_id === socket.id);
+
+    // filter out the cards which were played from the players hand
+    // keep track of this since we need to replenish his cards on round end
+    // maybe this could just be a simple count? but for now maybe just
+    // keep all cards he has, maybe we use it in future to implement player reconnect
+    player.hand = player.hand.filter((c) => !playedCardIds.includes(c.id));
 
     // save cards played this round
     game.played_this_round = game.played_this_round.concat(playedCards);
