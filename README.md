@@ -10,8 +10,8 @@ Simple implementation of the cards against humanity game using node and sockets.
 
 - Make sure you have node
 - Clone repo
-- Run `npm run start:dev`
-- Expose port 3000 with ngork
+- Run `docker-compose up -d node` (obviously need docker to be installed)
+- Expose port 3000 with ngork (TODO: bake this into compose? maybe as a separate prod deploy?)
 
 ## To do
 
@@ -38,5 +38,5 @@ Simple implementation of the cards against humanity game using node and sockets.
   - Save game data in redis
   - Socket.io redis adapter
   - Prevent same browser from joining as different users (sessions / cookies)
-- Use docker compose and updaet running instructions
+- ~~Use docker compose and update running instructions~~ Done
 - Make it responsive :upside_down_face:
