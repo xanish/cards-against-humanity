@@ -1,0 +1,25 @@
+version: '3.8'
+
+networks:
+  cah:
+
+services:
+  node:
+    image: node:18-alpine
+    working_dir: /usr/src/app/
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src/:/usr/src/app/
+    command: npm run start:dev
+    networks:
+      - cah
+  
+  npm:
+    image: node:18-alpine
+    working_dir: /usr/src/app/
+    volumes:
+      - ./src/:/usr/src/app/
+    entrypoint: 'npm'
+    networks:
+      - cah
