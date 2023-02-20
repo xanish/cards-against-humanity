@@ -6,12 +6,22 @@ Simple implementation of the cards against humanity game using node and sockets.
 
 - Game works and is playable
 
+## Running locally for test / development
+
+- Make sure docker is installed
+- Clone repo
+- Run `docker-compose run -d app`
+- Access app on [http://localhost:3000](http://localhost:3000)
+
 ## How to play with friends?
 
-- Make sure you have node
+- Make sure docker is installed
+- Make sure you have an ngrok account and copy your authtoken
 - Clone repo
-- Run `docker-compose up -d node` (obviously need docker to be installed)
-- Expose port 3000 with ngork (TODO: bake this into compose? maybe as a separate prod deploy?)
+- Create a `.env` file in project root folder (should be in same place as docker-compose.yml)
+- Create entry `NGROK_TOKEN=WHATEVER_YOUR_ACCESS_TOKEN_IS` in the file
+- Run `docker-compose up -d ngrok`
+- Open [http://localhost:4040/status](http://localhost:4040/status) and copy / share the URL with people you want to play with
 
 ## To do
 

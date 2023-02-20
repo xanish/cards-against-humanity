@@ -4,7 +4,7 @@ networks:
   cah:
 
 services:
-  node:
+  app:
     image: node:18-alpine
     working_dir: /usr/src/app/
     ports:
@@ -12,6 +12,16 @@ services:
     volumes:
       - ./src/:/usr/src/app/
     command: npm run start:dev
+    networks:
+      - cah
+  
+  ngrok:
+    image: ngrok/ngrok:3-alpine
+    ports:
+      - 4040:4040
+    command: http --authtoken ${NGROK_TOKEN} app:3000
+    depends_on:
+      - app
     networks:
       - cah
   
