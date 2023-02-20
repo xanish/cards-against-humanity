@@ -30,7 +30,6 @@ export class Game {
   updateSettings(settings) {
     this.settings = settings;
     this.idle_timeout = this.BASE_TIMEOUT * this.settings.idle_time_multiplier;
-    console.log(this.idle_timeout);
   }
 
   reset() {
@@ -46,6 +45,5 @@ export class Game {
       idle_time_multiplier: 1,
       packs: [],
     };
-    console.log('reset called');
   }
 }
