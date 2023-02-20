@@ -4,7 +4,6 @@ export class Player {
     this.username = username;
     this.is_owner = false;
     this.is_czar = false;
-    this.turn = -1;
     this.cards = [];
   }
 
@@ -24,7 +23,6 @@ export class Player {
 
   reset() {
     this.cards = [];
-    this.turn = -1;
     this.is_czar = false;
   }
 

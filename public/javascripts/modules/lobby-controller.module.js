@@ -1,4 +1,4 @@
-import { Game } from '../models/game.model.js';
+import { Game, GAME_STATE } from '../models/game.model.js';
 import { Player } from '../models/player.model.js';
 import { SettingsHandler } from './settings-handler.module.js';
 import { Utility } from './utility.module.js';
@@ -42,6 +42,7 @@ export class LobbyController {
       const game = new Game(lobbyCode);
       game.addPlayer([this.state.player]);
       game.owner = this.state.player;
+      game.state = GAME_STATE.LOBBY;
 
       this.state.setGame(game);
       this.state.player.is_owner = true;
@@ -69,6 +70,7 @@ export class LobbyController {
         game.addPlayer(Player.fromJson(player));
       }
       game.owner = Player.fromJson(data.owner);
+      game.state = GAME_STATE.LOBBY;
       this.state.setGame(game);
 
       this.elements.lobbyCodeLabel.textContent = lobbyCode;
@@ -112,7 +114,7 @@ export class LobbyController {
       });
       this.state.game.owner = player;
       this.state.player.is_owner = this.state.player.id === player.id;
-      if (this.state.player.turn === -1 && this.state.player.is_owner) {
+      if (this.state.game.state === GAME_STATE.LOBBY && this.state.player.is_owner) {
         this.settingsHandler.enableElements();
         Utility.show(this.elements.startGameBtn);
       }

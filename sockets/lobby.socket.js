@@ -1,6 +1,6 @@
 const nanoid = require('nanoid');
 const games = require('../database/models/game.model');
-const defaultGameSettings = require('../config/game-settings.config');
+const gameSettingsConf = require('../config/game-settings.config');
 
 module.exports = (io, socket) => {
   const createLobby = (player) => {
@@ -13,11 +13,14 @@ module.exports = (io, socket) => {
     games[lobbyCode] = {
       players: [player],
       owner: player,
-      settings: defaultGameSettings,
+      settings: gameSettingsConf.settings,
+      state: gameSettingsConf.state.NONE,
     };
 
     // join the lobby
     socket.join(lobbyCode);
+
+    games[lobbyCode].state = gameSettingsConf.state.LOBBY;
 
     // provide owner with intimation of created lobby
     io.to(lobbyCode).emit('lobby:created', lobbyCode);

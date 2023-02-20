@@ -1,5 +1,6 @@
 const games = require('../database/models/game.model');
 const packs = require('../database/models/pack.model');
+const gameSettingsConf = require('../config/game-settings.config');
 
 module.exports = (io, socket) => {
   const updateSettings = (lobbyCode, settings) => {
@@ -45,13 +46,9 @@ module.exports = (io, socket) => {
       ...game.settings,
       ...settings,
     };
+    game.state = gameSettingsConf.state.ONGOING;
 
-    // predecide the turn order in which players move for actions
-    // like drawing cards
-    let turnOrder = 0;
-    for (let player of players) {
-      io.to(player.socket_id).emit('game:started', turnOrder++);
-    }
+    io.to(lobbyCode).emit('game:started');
   };
 
   const drawCards = (lobbyCode, maxCardCount) => {
@@ -248,6 +245,7 @@ module.exports = (io, socket) => {
       score_board: {},
       black_cards: [],
       white_cards: [],
+      state: gameSettingsConf.state.LOBBY,
     };
     const game = games[lobbyCode];
 

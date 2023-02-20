@@ -1,3 +1,9 @@
+export const GAME_STATE = {
+  NONE: 0,
+  LOBBY: 1,
+  ONGOING: 2,
+};
+
 export class Game {
   BASE_TIMEOUT = 30;
 
@@ -17,6 +23,7 @@ export class Game {
       idle_time_multiplier: 1,
       packs: [],
     };
+    this.state = GAME_STATE.NONE;
   }
 
   addPlayer(player) {
@@ -45,5 +52,6 @@ export class Game {
       idle_time_multiplier: 1,
       packs: [],
     };
+    this.state = GAME_STATE.NONE;
   }
 }

@@ -4,6 +4,7 @@ import { Card } from '../models/card.model.js';
 import { Play } from '../models/play.model.js';
 import { Player } from '../models/player.model.js';
 import { Utility } from './utility.module.js';
+import { GAME_STATE } from '../models/game.model.js';
 
 export class GameController {
   elements = {
@@ -113,8 +114,8 @@ export class GameController {
   }
 
   initGameStartedEventListener() {
-    this.socket.on('game:started', (myTurn) => {
-      this.state.player.turn = myTurn;
+    this.socket.on('game:started', () => {
+      this.state.game.state = GAME_STATE.ONGOING;
       Utility.hide(this.elements.startGameBtn);
       Utility.hide(this.elements.settings);
       Utility.show(this.elements.playArea);
