@@ -1,5 +1,6 @@
 module.exports = {
   settings: {
+    password: '',
     player_limit: 5,
     score_limit: 10,
     packs: [],
