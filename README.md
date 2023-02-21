@@ -41,7 +41,7 @@ Simple implementation of the cards against humanity game using node and sockets.
   - ~~Max players allowed~~ Done
 - Extra pages?
   - Rules
-  - Card packs and cards
+  - ~~Card packs and cards~~ Done
 - Features
   - Show active games on home
 - Scaling

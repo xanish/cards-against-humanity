@@ -1,0 +1,33 @@
+extends layout
+
+block content
+  #popup-wrapper
+
+  .filters#filters
+    .card-pack-select#packs
+      input.input.light.search(type="text" name="pack-search" id="pack-search" placeholder="Search packs")
+      ul.header
+        li Pack
+        li Black Cards
+        li White Cards
+      .body
+      .footer#selected-info Selected: None
+    input#search.input.light(type="text" name="search" placeholder="Search card text")
+  
+  #cards-list-wrapper
+    table#cards-list
+      thead
+        tr
+          th Text
+          th Type
+          th Pack
+          th Pick
+      tbody
+        each card in cards
+          tr(data-pack-id=card.pack.id data-card-text=card.text)
+            td=card.text
+            td=(card.id.startsWith('CAHBC') ? 'Black' : 'White')
+            td=card.pack.name
+            td=card.pick
+
+  script(type="module", src="/javascripts/packs.js")

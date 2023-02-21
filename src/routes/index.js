@@ -6,4 +6,12 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Cards Against Humanity' });
 });
 
+/* GET cards page. */
+router.get('/cards', function (req, res, next) {
+  res.render('cards', {
+    title: 'Cards Against Humanity',
+    cards: require('./../database/data/cards.database.json'),
+  });
+});
+
 module.exports = router;

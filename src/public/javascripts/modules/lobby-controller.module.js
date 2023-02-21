@@ -114,7 +114,10 @@ export class LobbyController {
       });
       this.state.game.owner = player;
       this.state.player.is_owner = this.state.player.id === player.id;
-      if (this.state.game.state === GAME_STATE.LOBBY && this.state.player.is_owner) {
+      if (
+        this.state.game.state === GAME_STATE.LOBBY &&
+        this.state.player.is_owner
+      ) {
         this.settingsHandler.enableElements();
         Utility.show(this.elements.startGameBtn);
       }

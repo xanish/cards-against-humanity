@@ -406,6 +406,52 @@ body {
   padding: 0.5rem 1rem;
 }
 
+#filters {
+  margin: 1rem;
+}
+#filters #packs {
+  margin-bottom: 1rem;
+}
+
+#cards-list-wrapper {
+  margin: 2rem 1rem;
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+table#cards-list {
+  width: 100%;
+  border-collapse: collapse;
+}
+table#cards-list thead tr {
+  background-color: black;
+  color: white;
+}
+table#cards-list thead tr th {
+  padding: 1rem;
+}
+table#cards-list tbody tr:nth-child(even) {
+  background-color: #e2e2e2;
+}
+table#cards-list td,
+table#cards-list th {
+  border-top: 2px solid #000;
+  border-bottom: 2px solid #000;
+  padding: 0.5rem 1rem;
+}
+table#cards-list td:first-child,
+table#cards-list th:first-child {
+  border-left: 2px solid #000;
+}
+table#cards-list td:last-child,
+table#cards-list th:last-child {
+  border-right: 2px solid #000;
+}
+table#cards-list td:not(:first-child),
+table#cards-list th:not(:first-child) {
+  text-align: center;
+}
+
 ::-webkit-scrollbar {
   width: 0.7rem;
 }

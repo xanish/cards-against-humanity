@@ -469,6 +469,59 @@ body {
   }
 }
 
+#filters {
+  margin: 1rem;
+
+  #packs {
+    margin-bottom: 1rem;
+  }
+}
+
+#cards-list-wrapper {
+  margin: 2rem 1rem;
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+table#cards-list {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead tr {
+    background-color: black;
+    color: white;
+
+    th {
+      padding: 1rem;
+    }
+  }
+
+  tbody tr {
+    &:nth-child(even) {
+      background-color: #e2e2e2;
+    }
+  }
+
+  td,
+  th {
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    padding: 0.5rem 1rem;
+
+    &:first-child {
+      border-left: 2px solid #000;
+    }
+
+    &:last-child {
+      border-right: 2px solid #000;
+    }
+
+    &:not(:first-child) {
+      text-align: center;
+    }
+  }
+}
+
 ::-webkit-scrollbar {
   width: 0.7rem;
 }
